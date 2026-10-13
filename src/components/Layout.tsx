@@ -11,8 +11,7 @@ export function Layout() {
 
   const [theme, setTheme] = useState(() => localStorage.getItem('mt-theme') || 'light')
   const [open, setOpen] = useState(false)
-  const [corner,setCorner] = useState(false)
-  useEffect(()=>{setCorner(false);setOpen(false)},[pathname])
+  useEffect(()=>{setOpen(false)},[pathname])
   useEffect(() => { document.documentElement.dataset.theme = theme; localStorage.setItem('mt-theme', theme) }, [theme])
   return <div className="app-shell">
     <LiquidInteractions />
@@ -23,7 +22,7 @@ export function Layout() {
         <NavLink to="/campaigns" onClick={() => setOpen(false)}>{t("Chiến dịch")}</NavLink>
         <NavLink to="/status" onClick={() => setOpen(false)}>{t("Tra cứu")}</NavLink>
         <NavLink to="/admin" onClick={() => setOpen(false)}>{t("Quản trị")}</NavLink>
-        <div className="corner-menu"><button type="button" className="corner-trigger" aria-expanded={corner} aria-controls="tam-corner" onClick={()=>setCorner(!corner)} onKeyDown={e=>{if(e.key==='Escape')setCorner(false)}}>{language==='vi'?'Góc nhỏ của TΛM':'TΛM’s corner'} <span aria-hidden="true">⌄</span></button>{corner&&<div className="corner-popover" id="tam-corner" onKeyDown={e=>{if(e.key==='Escape')setCorner(false)}}><NavLink to="/story">{language==='vi'?'Câu chuyện hư cấu':'A fictional story'}</NavLink></div>}</div>
+        <NavLink to="/story" onClick={() => setOpen(false)}>{language === 'vi' ? 'Câu chuyện' : 'Story'}</NavLink>
       </nav>
       <div className="nav-actions">
         <div className="language-buttons" role="group" aria-label={t('Ngôn ngữ')}>{(['vi','en'] as const).map(item => <button key={item} aria-pressed={language === item} onClick={() => setLanguage(item)}>{item.toUpperCase()}</button>)}</div>
