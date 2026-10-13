@@ -1,4 +1,4 @@
-import { Moon, Sun, Menu, X } from 'lucide-react'
+import { Moon, Sun, Menu, X, ExternalLink } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link, NavLink, Outlet } from 'react-router-dom'
 import { Logo } from './Logo'
@@ -22,6 +22,6 @@ export function Layout() {
       </div>
     </div></header>
     <main><Outlet /></main>
-    <footer><div className="container footer-grid"><Logo /><p>Nền tảng chiến dịch cộng đồng Web3 minh bạch, bảo mật và có trách nhiệm.</p><p className="fine">© 2026 MT-Web3 Community</p></div></footer>
+    <footer><div className="container footer-grid"><Logo /><p>Nền tảng chiến dịch cộng đồng Web3 minh bạch, bảo mật và có trách nhiệm.</p><div className="footer-owner"><a href="https://x.com/daomintam" target="_blank" rel="noreferrer" aria-label="X của TAM"><span className="x-icon">X</span> @daomintam <ExternalLink size={13}/></a><p className="fine">© 2026 MT-Web3 Community</p></div></div></footer>
   </div>
 }
