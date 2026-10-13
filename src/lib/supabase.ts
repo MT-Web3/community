@@ -4,7 +4,9 @@ const url = import.meta.env.VITE_SUPABASE_URL
 const key = import.meta.env.VITE_SUPABASE_ANON_KEY
 
 export const isBackendConfigured = Boolean(url && key)
-export const supabase = isBackendConfigured ? createClient(url, key, { auth: { persistSession: true, autoRefreshToken: true } }) : null
+export const supabase = isBackendConfigured ? createClient(url, key, {
+  auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, flowType: 'pkce' },
+}) : null
 
 async function invokeFunction<T>(name: string, body: Record<string, unknown>): Promise<T> {
   if (!url || !key) throw new Error('Hệ thống chưa được cấu hình.')
