@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import type { Campaign, CampaignStatus, CampaignType } from '../types'
+import { normalizeUsername, normalizeXUrl } from './validation'
 
 const url = import.meta.env.VITE_SUPABASE_URL
 const key = import.meta.env.VITE_SUPABASE_ANON_KEY
@@ -24,15 +25,24 @@ async function invokeFunction<T>(name: string, body: Record<string, unknown>): P
 
 export async function submitApplication(payload: Record<string, unknown>) {
   if (!supabase) throw new Error('Hệ thống đăng ký chưa được cấu hình.')
-  return invokeFunction<{ code: string; status: string }>('submit-application', payload)
+  const xUsername = normalizeUsername(String(payload.xUsername || ''))
+  return invokeFunction<{ id: string; code: string; status: string }>('submit-application', {
+    ...payload, xUsername, xProfileUrl: `https://x.com/${xUsername}`,
+    postUrl1: normalizeXUrl(String(payload.postUrl1 || '')),
+    postUrl2: normalizeXUrl(String(payload.postUrl2 || '')),
+    walletAddress: String(payload.walletAddress || '').trim(),
+  })
 }
 
-export async function lookupApplication(code: string, email?: string) {
+export type ApplicationResult = { id: string; status: string; campaign: string; updatedAt: string }
+
+export async function lookupApplication(handle: string): Promise<ApplicationResult[]> {
   if (!supabase) throw new Error('Hệ thống tra cứu chưa được cấu hình.')
-  return invokeFunction<{ status: string; campaign: string; updatedAt: string }>('application-status', { code, email })
+  const result = await invokeFunction<{ applications: ApplicationResult[] }>('application-status', { handle: normalizeUsername(handle) })
+  return result.applications
 }
 
-type CampaignRow = {
+export type CampaignRow = {
   id: string; slug: string; name: string; project: string; description: string
   campaign_type: string; status: CampaignStatus; capacity: number | null
   starts_at: string | null; ends_at: string | null; reward: string | null

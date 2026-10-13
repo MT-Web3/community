@@ -4,6 +4,7 @@ package-lock.old.json
 dist
 .env
 .env.local
+.supabase-bundles
 .DS_Store
 *.log
 .vite

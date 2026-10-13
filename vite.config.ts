@@ -1,6 +1,26 @@
 import { defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react'
-import { loadEnv } from 'vite'
+import { loadEnv, type Plugin } from 'vite'
+
+const canonicalBase: Plugin = {
+  name: 'canonical-community-base',
+  configureServer(server) {
+    server.middlewares.use((req, res, next) => {
+      const url = (req as { url?: string }).url
+      if (url === '/community' || (url && url.indexOf('/community?') === 0)) {
+        res.writeHead(302, { Location: url.replace('/community', '/community/') }); res.end()
+      } else next()
+    })
+  },
+  configurePreviewServer(server) {
+    server.middlewares.use((req, res, next) => {
+      const url = (req as { url?: string }).url
+      if (url === '/community' || (url && url.indexOf('/community?') === 0)) {
+        res.writeHead(302, { Location: url.replace('/community', '/community/') }); res.end()
+      } else next()
+    })
+  },
+}
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, '.', 'VITE_')
@@ -12,7 +32,7 @@ export default defineConfig(({ mode }) => {
     },
   } : undefined
   return {
-  plugins: [react()],
+  plugins: [react(), canonicalBase],
   base: '/community/',
   server: { proxy },
   preview: { proxy },

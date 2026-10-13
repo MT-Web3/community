@@ -22,7 +22,7 @@ export interface Campaign {
 export interface SubmissionInput {
   campaignId: string
   xUsername: string
-  xProfileUrl: string
+  xProfileUrl?: string
   postUrl1: string
   postUrl2: string
   walletAddress?: string

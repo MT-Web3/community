@@ -1,36 +1,16 @@
-import { ArrowRight, CheckCircle2, Database, ExternalLink, MapPin, ShieldCheck } from 'lucide-react'
+import { ArrowRight, ExternalLink, ShieldCheck, Zap } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { CampaignCard } from '../components/CampaignCard'
 import { getPublicCampaigns } from '../lib/supabase'
 import type { Campaign } from '../types'
 
 export function Home() {
-  const [publicCampaigns,setPublicCampaigns]=useState<Campaign[]>([])
-  useEffect(()=>{getPublicCampaigns().then(setPublicCampaigns).catch(()=>setPublicCampaigns([]))},[])
-  return <>
-    <section className="hero"><div className="container hero-grid"><div>
-      <p className="kicker"><span/> 000 · COMMUNITY PROTOCOL</p>
-      <h1><span>Seen by all.</span><em>Earned by contribution.</em></h1>
-      <p className="hero-copy">Hạ tầng chiến dịch Web3 dành cho cộng đồng Việt Nam — tiêu chí công khai, dữ liệu được bảo vệ và mọi quyết định đều dựa trên đóng góp thực chất.</p>
-      <div className="hero-actions"><Link className="button primary" to="/campaigns">Khám phá chiến dịch <ArrowRight size={18}/></Link><Link className="button secondary" to="/status">Tra cứu hồ sơ</Link></div>
-    </div><div className="protocol-panel" aria-hidden="true"><div className="protocol-top"><span>MTW3/GENESIS</span><span>SEALED</span></div><div className="protocol-mark">{Array.from({length:8},(_,index)=><i key={index}/>)}</div><div className="protocol-readout"><span>NETWORK<br/><b>ETHEREUM</b></span><span>PRIVACY<br/><b>BY DESIGN</b></span><span>STATUS<br/><b>READY</b></span></div></div></div></section>
-    <section className="proof"><div className="container proof-grid">
-      <div><strong>{publicCampaigns.length}</strong><span>Chiến dịch đang công khai</span></div>
-      <div><strong>0</strong><span>Hồ sơ công khai danh tính</span></div>
-      <div><strong>100%</strong><span>Tiêu chí được công bố rõ ràng</span></div>
-    </div></section>
-    <section className="section creator-section"><div className="container creator-card">
-      <div className="creator-avatar"><img src="/community/assets/tam-profile.png" alt="TAM — người xây dựng MT-Web3 Community"/></div>
-      <div className="creator-copy"><p className="kicker">COMMUNITY BUILDER</p><div className="creator-name"><h2>TAM</h2><span className="creator-badge" aria-label="Đã xác minh">◆ ✓</span></div><a className="creator-handle" href="https://x.com/daomintam" target="_blank" rel="noreferrer"><span className="x-icon">X</span> @daomintam <ExternalLink size={16}/></a><p>Part of the @vibevibefun squad · Debugging life by day, airdropping gain by night. NFA. DYOR.</p><div className="creator-meta"><span><MapPin size={16}/> Dev · Web3 & Crypto · Creator</span><span>Tham gia X từ 06/2024</span></div><a className="button primary" href="https://x.com/daomintam" target="_blank" rel="noreferrer">Theo dõi TAM trên X <ArrowRight size={18}/></a></div>
-    </div></section>
-    <section className="section"><div className="container"><div className="section-head"><div><p className="kicker">CHIẾN DỊCH</p><h2>Đang diễn ra</h2></div><Link className="text-link" to="/campaigns">Xem tất cả <ArrowRight size={17}/></Link></div>
-      {publicCampaigns.length ? <div className="card-grid">{publicCampaigns.map(c => <CampaignCard key={c.id} campaign={c}/>)}</div> : <div className="empty"><span>00</span><h3>Chưa có chiến dịch đang mở</h3><p>Các chiến dịch bản nháp không được hiển thị công khai. Hãy quay lại khi có thông báo chính thức.</p></div>}
-    </div></section>
-    <section className="section principles"><div className="container"><p className="kicker">NGUYÊN TẮC</p><h2>Một hạ tầng đáng tin cậy<br/>cho cộng đồng.</h2><div className="feature-grid">
-      <article><ShieldCheck/><h3>Riêng tư từ thiết kế</h3><p>Thông tin cá nhân không được công khai. Người dùng chỉ tra cứu hồ sơ qua mã riêng.</p></article>
-      <article><CheckCircle2/><h3>Tiêu chí minh bạch</h3><p>Mỗi chiến dịch công bố rõ điều kiện, thời hạn và quy trình xét duyệt.</p></article>
-      <article><Database/><h3>Dữ liệu có trách nhiệm</h3><p>Dữ liệu chỉ được lưu trong thời gian cần thiết và có chính sách xóa rõ ràng.</p></article>
-    </div></div></section>
-  </>
+  const [campaigns, setCampaigns] = useState<Campaign[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(false)
+  useEffect(() => { getPublicCampaigns().then(setCampaigns).catch(() => setError(true)).finally(() => setLoading(false)) }, [])
+  return <section className="home-workspace container"><div className="home-intro"><p className="kicker"><span/> MT-WEB3 · COMMUNITY PROTOCOL</p><h1>Đóng góp thật.<br/><em>Cơ hội thật.</em></h1><p className="hero-copy">Không gian chiến dịch dành cho cộng đồng Web3 Việt Nam. Gửi minh chứng, theo dõi hồ sơ và cùng xây dựng giá trị.</p><div className="hero-actions"><Link className="button primary" to="/campaigns">Khám phá chiến dịch <ArrowRight size={20}/></Link><Link className="button secondary" to="/status">Tra cứu hồ sơ</Link></div><div className="network-visual" aria-hidden="true"><div className="network-orbit orbit-one"/><div className="network-orbit orbit-two"/><div className="network-orbit orbit-three"/><div className="network-core"><Zap size={36}/></div><span className="network-label">CONTRIBUTION → CONNECTION</span></div></div>
+  <div className="home-campaigns"><div className="section-head"><div><p className="kicker">COMMUNITY OPPORTUNITIES</p><h2>Chiến dịch</h2></div><span className="count-chip">{campaigns.length.toString().padStart(2, '0')}</span></div><div className="home-campaign-list">{loading ? <div className="lookup-placeholder">Đang tải chiến dịch…</div> : error ? <div className="empty"><h3>Chưa tải được chiến dịch</h3><Link className="button secondary" to="/campaigns">Thử lại</Link></div> : campaigns.length ? campaigns.map(campaign => <Link className="opportunity-card" key={campaign.id} to={`/campaigns/${campaign.slug}`}><div className="opportunity-art">{campaign.slug.startsWith('fungolabs') ? <img src="/community/assets/fungolabs-logo.png" alt="FungoLabs"/> : <Zap size={36}/>}<span>{campaign.project}</span><ArrowRight size={22}/></div><div className="opportunity-copy"><span className={`status ${campaign.status}`}>{campaign.status === 'active' ? 'Đang mở' : campaign.status === 'upcoming' ? 'Sắp diễn ra' : 'Đã kết thúc'}</span><h3>{campaign.name}</h3><p>{campaign.description}</p><span className="text-link">Khám phá & tham gia <ArrowRight size={18}/></span></div></Link>) : <div className="empty"><h3>Cơ hội mới đang đến</h3><p>Chiến dịch sẽ xuất hiện khi được công bố chính thức.</p></div>}</div></div>
+  <div className="home-bottom"><a className="builder-mini" href="https://x.com/daomintam" target="_blank" rel="noreferrer"><img src="/community/assets/tam-profile.png" alt="TAM"/><div><small>COMMUNITY BUILDER</small><strong>TAM <span>@daomintam</span></strong></div><ExternalLink size={18}/></a><div className="principle-mini"><ShieldCheck size={24}/><div><strong>Minh chứng được bảo vệ</strong><span>Trạng thái tra cứu bằng handle X</span></div></div><div className="principle-mini"><Zap size={24}/><div><strong>Đóng góp là trọng tâm</strong><span>Xét duyệt thủ công · NFA · DYOR</span></div></div></div>
+  </section>
 }

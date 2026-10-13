@@ -6,11 +6,11 @@ Nền tảng quản lý chiến dịch cộng đồng Web3, frontend tĩnh trên
 
 - React + TypeScript + Vite: giao diện responsive, dark/light mode, GitHub Pages.
 - Supabase Postgres: campaigns, applications, admin roles; RLS mặc định chặn dữ liệu cá nhân.
-- Supabase Auth: magic link cho quản trị viên.
-- Edge Functions: nhận hồ sơ, tra cứu qua mã băm, giới hạn tần suất và Turnstile.
+- Supabase Auth: GitHub và magic link cho quản trị viên.
+- Edge Functions: nhận hồ sơ, tra cứu trạng thái bằng handle X (hỗ trợ mã cũ), giới hạn tần suất trong database.
 - GitHub Actions: test, build và deploy Pages từ `main`.
 
-Không có service-role key trong frontend. Chiến dịch FungoLabs được seed ở trạng thái `draft` và chưa nhận đăng ký.
+Không có service-role key trong frontend. Migration ban đầu seed FungoLabs ở trạng thái `draft`; admin quản lý trạng thái thực tế trong database.
 
 ## Chạy local
 
@@ -37,9 +37,13 @@ on conflict (user_id) do nothing;
 ```
 
 Email được Supabase Auth quản lý trong `auth.users`; không lưu email hoặc role trong `public.admin_users`.
-4. Đặt Edge Function secrets: `HASH_SECRET` (chuỗi ngẫu nhiên dài), `TURNSTILE_SECRET_KEY`, `ALLOWED_ORIGIN=https://mt-web3.github.io`.
+4. Đặt Edge Function secrets: `HASH_SECRET` (chuỗi ngẫu nhiên dài), `ALLOWED_ORIGIN=https://mt-web3.github.io`. `TURNSTILE_SECRET_KEY` chỉ bật khi frontend đã có bộ cấp token chống bot tương ứng.
 5. Deploy hai functions: `submit-application` và `application-status`.
 6. Thêm GitHub repository secrets từ `.env.example`. Anon key là public-by-design nhưng vẫn được bảo vệ bằng RLS.
+
+Khi nâng cấp bản đã triển khai, áp dụng migration `202610140001_handle_lookup.sql` trước khi deploy hai functions. Migration thêm chỉ mục handle và bộ giới hạn yêu cầu nguyên tử; chỉ service role được gọi bộ giới hạn. Không mở quyền đọc bảng hồ sơ cho anonymous hoặc authenticated user thông thường.
+
+Nếu deploy bằng editor trên dashboard, chạy `node scripts/bundle-functions.mjs` rồi dùng source tương ứng trong `.supabase-bundles`. Script chỉ ghép các module local vào một file; không chứa thông tin kết nối hay credentials. Supabase CLI có thể deploy trực tiếp source trong `supabase/functions`.
 
 ## GitHub Pages
 
@@ -53,6 +57,11 @@ Trong repository Settings → Pages, chọn **GitHub Actions** làm nguồn. Wor
 - Ended: ngừng nhận hồ sơ, giữ dữ liệu theo `retention_days` (mặc định 180 ngày).
 - Khi duyệt, chỉ cập nhật `pending` → `approved` hoặc `rejected`; không ghi thông tin nhạy cảm vào review note.
 - Xuất CSV chỉ dành cho admin xác thực; file xuất cần được lưu và chia sẻ như dữ liệu nhạy cảm.
+- Dashboard đọc chiến dịch từ database. Tạo chiến dịch hỗ trợ tên, dự án, mô tả, giveaway/allowlist, phần thưởng, số suất, ngày giờ, task theo dòng và ví EVM tùy chọn. Form hiện dùng handle X và hai link bài viết; task được xét duyệt thủ công, không tự kiểm tra follow hoặc chọn người thắng.
+- Xuất CSV lấy toàn bộ hồ sơ theo bộ lọc đang chọn, có BOM UTF-8 cho tiếng Việt và vô hiệu hóa giá trị có thể bị spreadsheet diễn giải thành công thức.
+- Form tự dựng URL profile từ handle, chấp nhận `x.com/.../status/...` không có `https://`, chuẩn hóa về HTTPS và kiểm tra trùng ID bài viết. Sau khi gửi hiển thị UUID của đơn; người dùng tra cứu bằng handle, không cần nhớ mã.
+- Tra cứu handle chỉ trả ID, tên chiến dịch, trạng thái và thời gian cập nhật. Bất kỳ ai biết handle có thể xem trạng thái; giao diện nêu rõ điều này trước khi gửi đơn. Không trả ví, minh chứng hay review note.
+- Giao diện là workspace cố định trong viewport, chuyển màn hình qua điều hướng/tab. Nội dung dài cuộn trong khung riêng; desktop và mobile không cuộn toàn bộ document. Hiệu ứng quỹ đạo/ánh sáng dùng CSS và tôn trọng tùy chọn giảm chuyển động, không gọi dịch vụ AI.
 - Lập lịch xóa hồ sơ quá hạn bằng Supabase Cron theo truy vấn mẫu cuối migration.
 
 ## Kiểm thử
@@ -64,4 +73,4 @@ npm run build
 
 ## Chính sách an toàn
 
-Không bao giờ yêu cầu private key/seed phrase. Không công khai submission. Không tuyên bố quyền sở hữu tài khoản X đã được xác minh chỉ dựa trên các URL do người dùng cung cấp.
+Không bao giờ yêu cầu private key/seed phrase. Không công khai nội dung hồ sơ; chỉ trạng thái tối thiểu có thể được tra cứu bằng handle. Không tuyên bố quyền sở hữu tài khoản X đã được xác minh chỉ dựa trên các URL do người dùng cung cấp.

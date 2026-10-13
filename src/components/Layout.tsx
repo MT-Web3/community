@@ -11,7 +11,7 @@ export function Layout() {
     <header className="header"><div className="container nav-wrap">
       <Link to="/" onClick={() => setOpen(false)}><Logo /></Link>
       <nav className={open ? 'nav open' : 'nav'} aria-label="Điều hướng chính">
-        <NavLink to="/" onClick={() => setOpen(false)}>Trang chủ</NavLink>
+        <NavLink to="/" end onClick={() => setOpen(false)}>Trang chủ</NavLink>
         <NavLink to="/campaigns" onClick={() => setOpen(false)}>Chiến dịch</NavLink>
         <NavLink to="/status" onClick={() => setOpen(false)}>Tra cứu</NavLink>
         <NavLink to="/admin" onClick={() => setOpen(false)}>Quản trị</NavLink>
