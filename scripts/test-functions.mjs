@@ -54,4 +54,6 @@ assert.ok(lookup.recorded.filters.some(([column,value]) => column === 'campaigns
 assert.equal((await lookup.invoke({handle:'invalid handle'})).status,400)
 assert.equal((await lookup.invoke({code:'MT-ABCDEF12'})).body.id,'application-id')
 assert.equal((await (await handler('application-status',{allowed:false})).invoke({handle:'daomintam'})).status,429)
+const translated = await handler('application-status',{rows:[{id:'application-id',status:'pending',updated_at:'2026-10-14',campaigns:{name:'Bản gốc',form_config:{translations:{en:{name:'English campaign'}}}}}]})
+assert.equal((await translated.invoke({handle:'daomintam',language:'en'})).body.applications[0].campaign,'English campaign')
 console.log('Edge Function checks passed: receipts, URL normalization, duplicate posts, wallet, lifecycle, rate limits, privacy and legacy codes.')

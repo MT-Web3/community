@@ -59,9 +59,9 @@ Trong repository Settings → Pages, chọn **GitHub Actions** làm nguồn. Wor
 - Xuất CSV chỉ dành cho admin xác thực; file xuất cần được lưu và chia sẻ như dữ liệu nhạy cảm.
 - Dashboard đọc chiến dịch từ database. Tạo chiến dịch hỗ trợ tên, dự án, mô tả, giveaway/allowlist, phần thưởng, số suất, ngày giờ, task theo dòng và ví EVM tùy chọn. Form hiện dùng handle X và hai link bài viết; task được xét duyệt thủ công, không tự kiểm tra follow hoặc chọn người thắng.
 - Xuất CSV lấy toàn bộ hồ sơ theo bộ lọc đang chọn, có BOM UTF-8 cho tiếng Việt và vô hiệu hóa giá trị có thể bị spreadsheet diễn giải thành công thức.
-- Form tự dựng URL profile từ handle, chấp nhận `x.com/.../status/...` không có `https://`, chuẩn hóa về HTTPS và kiểm tra trùng ID bài viết. Sau khi gửi hiển thị UUID của đơn; người dùng tra cứu bằng handle, không cần nhớ mã.
-- Tra cứu handle chỉ trả ID, tên chiến dịch, trạng thái và thời gian cập nhật. Bất kỳ ai biết handle có thể xem trạng thái; giao diện nêu rõ điều này trước khi gửi đơn. Không trả ví, minh chứng hay review note.
-- Giao diện là workspace cố định trong viewport, chuyển màn hình qua điều hướng/tab. Nội dung dài cuộn trong khung riêng; desktop và mobile không cuộn toàn bộ document. Hiệu ứng quỹ đạo/ánh sáng dùng CSS và tôn trọng tùy chọn giảm chuyển động, không gọi dịch vụ AI.
+- Form tự dựng URL profile từ handle, chấp nhận `x.com/.../status/...` không có `https://`, chuẩn hóa về HTTPS và kiểm tra trùng ID bài viết. ID chỉ được dùng nội bộ trong database. Không hiển thị ID trên trang tra cứu, thông báo gửi đơn, danh sách admin hoặc CSV; người dùng chỉ cần handle.
+- Tra cứu handle hiển thị tên chiến dịch, trạng thái và thời gian cập nhật. ID trong phản hồi chỉ dùng làm khóa nội bộ, không render lên giao diện. Bất kỳ ai biết handle có thể xem trạng thái; giao diện nêu rõ điều này trước khi gửi đơn. Không trả ví, minh chứng hay review note.
+- Giao diện là workspace cố định trong viewport, chuyển màn hình qua điều hướng/tab. Nội dung dài cuộn trong khung riêng; desktop và mobile không cuộn toàn bộ document. Thiết kế lấy cảm hứng từ cách xử lý typography và chuyển động của Hello Monday: typography lớn, nhân vật người dùng cung cấp, đường nét Canvas biến dạng, parallax theo con trỏ, phản hồi chạm và chuyển cảnh CSS. Tôn trọng giảm chuyển động, không gọi dịch vụ AI.
 - Lập lịch xóa hồ sơ quá hạn bằng Supabase Cron theo truy vấn mẫu cuối migration.
 
 ## Kiểm thử
@@ -74,3 +74,9 @@ npm run build
 ## Chính sách an toàn
 
 Không bao giờ yêu cầu private key/seed phrase. Không công khai nội dung hồ sơ; chỉ trạng thái tối thiểu có thể được tra cứu bằng handle. Không tuyên bố quyền sở hữu tài khoản X đã được xác minh chỉ dựa trên các URL do người dùng cung cấp.
+
+## Ngôn ngữ và lịch chiến dịch
+
+- VI/EN có bộ chọn trên header, lưu lựa chọn local và cập nhật ngôn ngữ HTML. Nhãn, thông báo, control, ngày giờ và CSV theo ngôn ngữ đã chọn. Bản tiếng Anh của nội dung chiến dịch được lưu trong `form_config.translations.en`; thiếu bản dịch thì giữ nguyên nội dung gốc. Chuỗi giao diện tiếng Anh ở `src/locales/en.json`.
+- Bắt buộc chọn ngày/giờ bắt đầu, kể cả bản nháp. Hạn kết thúc tùy chọn và được ghi rõ là không đặt hạn. Calendar dialog chọn ngày theo ô, tháng/năm bằng control và giờ/phút bằng danh sách; không có ô nhập từng phần tháng/ngày/năm.
+- Áp dụng migration `202610140002_campaign_start.sql` để database cũng chặn chiến dịch mới/cập nhật thiếu ngày bắt đầu. Những bản nháp cũ được giữ nguyên, nhưng cần chọn ngày khi lưu lần tiếp theo.

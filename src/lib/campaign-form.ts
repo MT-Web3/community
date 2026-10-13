@@ -15,6 +15,7 @@ export function toLocalDateTime(value: string | null): string {
 export function campaignPayload(form: CampaignForm) {
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(form.slug)) throw new Error('Đường dẫn chỉ gồm chữ thường, số và dấu gạch ngang.')
   if (!form.name.trim() || !form.project.trim() || !form.description.trim()) throw new Error('Điền tên, dự án và mô tả chiến dịch.')
+  if (!form.starts_at) throw new Error('Chọn ngày và giờ bắt đầu trước khi lưu chiến dịch.')
   const starts = form.starts_at ? new Date(form.starts_at) : null
   const ends = form.ends_at ? new Date(form.ends_at) : null
   if ((starts && !Number.isFinite(starts.getTime())) || (ends && !Number.isFinite(ends.getTime()))) throw new Error('Ngày giờ không hợp lệ.')

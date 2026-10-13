@@ -2,6 +2,7 @@ export type CampaignStatus = 'draft' | 'upcoming' | 'active' | 'ended'
 export type CampaignType = 'Whitelist' | 'Giveaway' | 'Community Nomination' | 'NFT Allowlist' | 'Early Access' | 'Community Campaign'
 
 export interface Campaign {
+  translations?: { en?: { name?: string; description?: string; reward?: string; requirements?: string[] } }
   id: string
   slug: string
   name: string

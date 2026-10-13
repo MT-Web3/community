@@ -36,6 +36,6 @@ export default defineConfig(({ mode }) => {
   base: '/community/',
   server: { proxy },
   preview: { proxy },
-  test: { environment: 'jsdom', setupFiles: './src/test/setup.ts', include: ['src/**/*.test.ts'] }
+  test: { environment: 'jsdom', setupFiles: './src/test/setup.ts', include: ['src/**/*.test.ts', 'src/**/*.test.tsx'] }
   }
 })

@@ -8,4 +8,6 @@ describe('campaign editor', () => {
   it('rejects an end before the start', () => expect(() => campaignPayload({...form,ends_at:'2026-10-14T09:00'})).toThrow('kết thúc'))
   it.each(['-1','0','1.5','NaN'])('rejects invalid capacity %s', capacity => expect(() => campaignPayload({...form,capacity})).toThrow('Số suất'))
   it('rejects invalid slugs', () => expect(() => campaignPayload({...form,slug:'Bad slug'})).toThrow('Đường dẫn'))
+  it('requires a start date even for drafts', () => expect(() => campaignPayload({...form,starts_at:''})).toThrow('bắt đầu'))
+  it('allows an explicitly unlimited end date', () => expect(campaignPayload({...form,ends_at:''}).ends_at).toBeNull())
 })

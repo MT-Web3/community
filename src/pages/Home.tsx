@@ -1,16 +1,22 @@
-import { ArrowRight, ExternalLink, ShieldCheck, Zap } from 'lucide-react'
+import { useI18n, localizeCampaign } from '../lib/i18n'
+import { ArrowDownRight, ArrowUpRight, ExternalLink } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import { MotionStage } from '../components/MotionStage'
 import { getPublicCampaigns } from '../lib/supabase'
 import type { Campaign } from '../types'
 
 export function Home() {
-  const [campaigns, setCampaigns] = useState<Campaign[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
+  const { t, language } = useI18n()
+
+  const [campaigns, setCampaigns] = useState<Campaign[]>([]), [loading, setLoading] = useState(true), [error, setError] = useState(false)
+  const [word, setWord] = useState(0)
+  const words = [t("Đóng góp."), t("Kết nối."), t("Khám phá.")]
   useEffect(() => { getPublicCampaigns().then(setCampaigns).catch(() => setError(true)).finally(() => setLoading(false)) }, [])
-  return <section className="home-workspace container"><div className="home-intro"><p className="kicker"><span/> MT-WEB3 · COMMUNITY PROTOCOL</p><h1>Đóng góp thật.<br/><em>Cơ hội thật.</em></h1><p className="hero-copy">Không gian chiến dịch dành cho cộng đồng Web3 Việt Nam. Gửi minh chứng, theo dõi hồ sơ và cùng xây dựng giá trị.</p><div className="hero-actions"><Link className="button primary" to="/campaigns">Khám phá chiến dịch <ArrowRight size={20}/></Link><Link className="button secondary" to="/status">Tra cứu hồ sơ</Link></div><div className="network-visual" aria-hidden="true"><div className="network-orbit orbit-one"/><div className="network-orbit orbit-two"/><div className="network-orbit orbit-three"/><div className="network-core"><Zap size={36}/></div><span className="network-label">CONTRIBUTION → CONNECTION</span></div></div>
-  <div className="home-campaigns"><div className="section-head"><div><p className="kicker">COMMUNITY OPPORTUNITIES</p><h2>Chiến dịch</h2></div><span className="count-chip">{campaigns.length.toString().padStart(2, '0')}</span></div><div className="home-campaign-list">{loading ? <div className="lookup-placeholder">Đang tải chiến dịch…</div> : error ? <div className="empty"><h3>Chưa tải được chiến dịch</h3><Link className="button secondary" to="/campaigns">Thử lại</Link></div> : campaigns.length ? campaigns.map(campaign => <Link className="opportunity-card" key={campaign.id} to={`/campaigns/${campaign.slug}`}><div className="opportunity-art">{campaign.slug.startsWith('fungolabs') ? <img src="/community/assets/fungolabs-logo.png" alt="FungoLabs"/> : <Zap size={36}/>}<span>{campaign.project}</span><ArrowRight size={22}/></div><div className="opportunity-copy"><span className={`status ${campaign.status}`}>{campaign.status === 'active' ? 'Đang mở' : campaign.status === 'upcoming' ? 'Sắp diễn ra' : 'Đã kết thúc'}</span><h3>{campaign.name}</h3><p>{campaign.description}</p><span className="text-link">Khám phá & tham gia <ArrowRight size={18}/></span></div></Link>) : <div className="empty"><h3>Cơ hội mới đang đến</h3><p>Chiến dịch sẽ xuất hiện khi được công bố chính thức.</p></div>}</div></div>
-  <div className="home-bottom"><a className="builder-mini" href="https://x.com/daomintam" target="_blank" rel="noreferrer"><img src="/community/assets/tam-profile.png" alt="TAM"/><div><small>COMMUNITY BUILDER</small><strong>TAM <span>@daomintam</span></strong></div><ExternalLink size={18}/></a><div className="principle-mini"><ShieldCheck size={24}/><div><strong>Minh chứng được bảo vệ</strong><span>Trạng thái tra cứu bằng handle X</span></div></div><div className="principle-mini"><Zap size={24}/><div><strong>Đóng góp là trọng tâm</strong><span>Xét duyệt thủ công · NFA · DYOR</span></div></div></div>
-  </section>
+  useEffect(() => {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const timer = setInterval(() => setWord(current => (current + 1) % 3), 3400)
+    return () => clearInterval(timer)
+  }, [])
+  return <section className="monday-home container"><div className="monday-editorial"><p className="kicker">MT-WEB3 COMMUNITY</p><h1>{t('Cùng xây')}<br/>{t('điều hay')}<span className="hero-period">.</span></h1><div className="kinetic-word" aria-hidden="true"><span key={word}>{words[word]}</span></div><p className="hero-copy">{t("Không gian chiến dịch dành cho cộng đồng Web3 Việt Nam. Gửi minh chứng, theo dõi hồ sơ và cùng xây dựng giá trị.")}</p><div className="hero-actions"><Link className="button primary" to="/campaigns">{t("Khám phá chiến dịch") + " "}<ArrowUpRight size={23}/></Link><Link className="hero-text-link" to="/status">{t("Tra cứu hồ sơ") + " "}<ArrowUpRight size={20}/></Link></div><a className="monday-builder" href="https://x.com/daomintam" target="_blank" rel="noreferrer">{t('XÂY CÙNG CỘNG ĐỒNG')} · @daomintam <ExternalLink size={13}/></a></div><MotionStage/><div className="campaign-ribbon"><div className="ribbon-heading"><ArrowDownRight size={32}/><span>{t("Cơ hội dành cho bạn")}</span></div><div className="ribbon-opportunities">{loading ? <span>{t("Đang tải chiến dịch…")}</span> : error ? <Link to="/campaigns">{t("Thử lại")}</Link> : campaigns.length ? campaigns.slice(0,3).map(item => localizeCampaign(item, language)).map(campaign => <Link key={campaign.id} to={`/campaigns/${campaign.slug}`} className="ribbon-link"><span className={`status ${campaign.status}`}>{campaign.status === 'active' ? t("Đang mở") : campaign.status === 'upcoming' ? t("Sắp diễn ra") : t("Đã kết thúc")}</span><strong>{campaign.name}</strong><ArrowUpRight size={26}/></Link>) : <span>{t("Cơ hội mới đang đến")}</span>}</div><Link className="ribbon-all" to="/campaigns" aria-label={t("Xem chiến dịch")}><ArrowUpRight size={28}/></Link></div></section>
 }

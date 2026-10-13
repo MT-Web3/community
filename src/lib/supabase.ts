@@ -36,9 +36,9 @@ export async function submitApplication(payload: Record<string, unknown>) {
 
 export type ApplicationResult = { id: string; status: string; campaign: string; updatedAt: string }
 
-export async function lookupApplication(handle: string): Promise<ApplicationResult[]> {
+export async function lookupApplication(handle: string, language: 'vi' | 'en' = 'vi'): Promise<ApplicationResult[]> {
   if (!supabase) throw new Error('Hệ thống tra cứu chưa được cấu hình.')
-  const result = await invokeFunction<{ applications: ApplicationResult[] }>('application-status', { handle: normalizeUsername(handle) })
+  const result = await invokeFunction<{ applications: ApplicationResult[] }>('application-status', { handle: normalizeUsername(handle), language })
   return result.applications
 }
 
@@ -46,7 +46,7 @@ export type CampaignRow = {
   id: string; slug: string; name: string; project: string; description: string
   campaign_type: string; status: CampaignStatus; capacity: number | null
   starts_at: string | null; ends_at: string | null; reward: string | null
-  requirements: string[]; form_config: { walletRequired?: boolean } | null
+  requirements: string[]; form_config: { walletRequired?: boolean; translations?: Campaign['translations'] } | null
 }
 
 export function mapCampaign(row: CampaignRow): Campaign {
@@ -57,6 +57,7 @@ export function mapCampaign(row: CampaignRow): Campaign {
     startsAt: row.starts_at, endsAt: row.ends_at, capacity: row.capacity,
     reward: row.reward || 'Đang cập nhật', requirements: row.requirements || [],
     walletRequired: Boolean(row.form_config?.walletRequired), accent: '#ffd400',
+    translations: row.form_config?.translations,
   }
 }
 
