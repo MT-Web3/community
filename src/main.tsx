@@ -7,6 +7,7 @@ import './styles.css'
 import './workspace.css'
 import './experience.css'
 import './playful.css'
+import './design-system.css'
 
 const redirect = sessionStorage.getItem('redirect')
 if (redirect) {

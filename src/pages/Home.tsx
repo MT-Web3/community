@@ -11,7 +11,7 @@ export function Home() {
 
   const [campaigns, setCampaigns] = useState<Campaign[]>([]), [loading, setLoading] = useState(true), [error, setError] = useState(false)
   const [word, setWord] = useState(0)
-  const words = [t("Đóng góp."), t("Kết nối."), t("Khám phá.")]
+  const words = [t("Đóng góp."), t("Kết nối.").normalize("NFC"), t("Khám phá.")]
   useEffect(() => { getPublicCampaigns().then(setCampaigns).catch(() => setError(true)).finally(() => setLoading(false)) }, [])
   useEffect(() => {
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) return
