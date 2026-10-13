@@ -1,0 +1,17 @@
+import {usePageTitle} from '../lib/usePageTitle'
+import { useEffect, useRef, useState } from 'react'
+import { useI18n } from '../lib/i18n'
+const moods=[{vi:'Mưa bên cửa',en:'Window rain',notes:[174.61,220,261.63,349.23]},{vi:'Đêm trên quỹ đạo',en:'Orbital night',notes:[146.83,196,246.94,293.66]},{vi:'Bình minh chậm',en:'Slow sunrise',notes:[130.81,164.81,196,261.63]}]
+export function Chill(){usePageTitle('TΛM / SLOW CLUB');
+  const {language}=useI18n(),vi=language==='vi',context=useRef<AudioContext>(),master=useRef<GainNode>()
+  const [mood,setMood]=useState(0),[playing,setPlaying]=useState(false),[volume,setVolume]=useState(.35)
+  useEffect(()=>()=>{void context.current?.close()},[])
+  useEffect(()=>{if(!playing)return;const ctx=context.current!;
+    // Each phrase is scheduled ahead, independent of animation frame timing.
+    function phrase(){const notes=moods[mood].notes;const when=ctx.currentTime+.06;notes.forEach((note)=>{const osc=ctx.createOscillator(),gain=ctx.createGain();osc.type='sine';osc.frequency.value=note;gain.gain.setValueAtTime(0,when);gain.gain.linearRampToValueAtTime(.09,when+.8);gain.gain.exponentialRampToValueAtTime(.0001,when+5.5);osc.connect(gain);gain.connect(master.current!);osc.start(when);osc.stop(when+6)})}
+    phrase();const timer=setInterval(phrase,4500);return()=>clearInterval(timer)
+  },[playing,mood])
+  async function toggle(){if(playing){await context.current?.suspend();setPlaying(false)}else{context.current??=new AudioContext();if(!master.current){master.current=context.current.createGain();master.current.gain.value=volume;master.current.connect(context.current.destination)}await context.current.resume();setPlaying(true)}}
+  async function choose(index:number){setMood(index);if(context.current){await context.current.close();context.current=undefined;master.current=undefined;setPlaying(false)}}
+  return <section className={`chill-page container ${playing?'is-listening':''}`}><div className="hub-heading"><div><p className="kicker">TΛM / SLOW CLUB</p><h1>{vi?'Ngồi đây. Nghe chút.':'Stay. Listen a little.'}</h1></div><span>{vi?'Ambient gốc · Không quảng cáo':'Original ambient · No ads'}</span></div><div className="chill-room"><div className="chill-window"><span className="chill-moon">☾</span><div className="rain-lines"/><div className="chill-skyline"/></div><img src={`${import.meta.env.BASE_URL}assets/community-mascot.png`} alt="TΛM"/><div className="chill-caption"><h2>{moods[mood][vi?'vi':'en']}</h2><p>{vi?'Cà phê ở đây không nguội. Bạn không cần vội.':'The coffee stays warm. There is no hurry.'}</p><div className="equalizer" aria-hidden="true">{Array.from({length:12},(_,i)=><i key={i} style={{animationDelay:`${i*.13}s`}}/>)}</div></div></div><div className="chill-player"><div className="chill-moods" role="group" aria-label={vi?'Chọn không khí':'Choose mood'}>{moods.map((item,index)=><button key={index} aria-pressed={mood===index} onClick={()=>void choose(index)}>{item[vi?'vi':'en']}</button>)}</div><button className="button primary" onClick={()=>void toggle()}>{playing?'Ⅱ':'▶'} {vi?playing?'Tạm dừng':'Nghe cùng TΛM':playing?'Pause':'Listen with TΛM'}</button><label>{vi?'Âm lượng':'Volume'}<input type="range" min="0" max="1" step=".05" value={volume} onChange={e=>{const next=Number(e.target.value);setVolume(next);master.current?.gain.setTargetAtTime(next,context.current!.currentTime,.1)}}/></label></div></section>
+}

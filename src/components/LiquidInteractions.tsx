@@ -46,6 +46,8 @@ export function LiquidInteractions() {
           const strength = 1-distance/110
           const direction = Math.max(-1,Math.min(1,(x-r.left-r.width/2)/(r.width/2)))
           element.classList.add('liquid-near')
+          element.style.setProperty('--hit-x',Math.max(0,Math.min(100,(x-r.left)/r.width*100))+'%')
+          element.style.setProperty('--hit-y',Math.max(0,Math.min(100,(y-r.top)/r.height*100))+'%')
           element.style.setProperty('--bend',String(strength))
           element.style.setProperty('--squeeze',String(1-strength*.06))
           element.style.setProperty('--stretch',String(1+strength*.08))

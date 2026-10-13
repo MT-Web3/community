@@ -1,6 +1,6 @@
 import { useI18n } from '../lib/i18n'
 import { Moon, Sun, Menu, X, ExternalLink } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { Logo } from './Logo'
 import { LiquidInteractions } from './LiquidInteractions'
@@ -21,6 +21,9 @@ export function Layout() {
         <NavLink to="/campaigns" onClick={() => setOpen(false)}>{t("Chiến dịch")}</NavLink>
         <NavLink to="/status" onClick={() => setOpen(false)}>{t("Tra cứu")}</NavLink>
         <NavLink to="/story" onClick={() => setOpen(false)}>{language === 'vi' ? 'Câu chuyện' : 'Story'}</NavLink>
+        <NavLink to="/game" onClick={() => setOpen(false)}>Game</NavLink>
+        <NavLink to="/crypto" onClick={() => setOpen(false)}>Crypto</NavLink>
+        <NavLink to="/chill" onClick={() => setOpen(false)}>Chill</NavLink>
         <NavLink to="/admin" onClick={() => setOpen(false)}>{t("Quản trị")}</NavLink>
       </nav>
       <div className="nav-actions">
@@ -29,7 +32,7 @@ export function Layout() {
         <button className="icon-button menu-button" onClick={() => setOpen(!open)} aria-label={t("Mở menu")}>{open ? <X /> : <Menu />}</button>
       </div>
     </div></header>
-    <main><div className="view-transition" key={pathname}><Outlet /></div></main>
+    <main><div className="view-transition" key={pathname}><Suspense fallback={<div className="empty"><h2>{t("Đang tải…")}</h2></div>}><Outlet /></Suspense></div></main>
     <footer><div className="container footer-grid"><Logo /><p>{t("Nền tảng chiến dịch cộng đồng Web3 minh bạch, bảo mật và có trách nhiệm.")}</p><div className="footer-owner"><a href="https://x.com/daomintam" target="_blank" rel="noreferrer" aria-label={language === 'vi' ? 'X của TΛM' : 'TΛM on X'}><span className="x-icon">X</span> @daomintam <ExternalLink size={13}/></a><p className="fine">© 2026 MT-Web3 Community</p></div></div></footer>
   </div>
 }
