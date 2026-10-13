@@ -22,6 +22,8 @@ npm run dev
 
 Nếu chưa cấu hình Supabase, website vẫn chạy ở chế độ read-only và không hiển thị chiến dịch Draft.
 
+Để dùng backend đã triển khai từ máy local, đặt URL và anon key của project trong `.env.local`, thêm `VITE_FUNCTIONS_URL=/backend/functions/v1`, rồi build lại. Vite chuyển tiếp các yêu cầu Edge Functions tới project đó. Đăng ký callback `http://127.0.0.1:4173/community/admin` trong Supabase Authentication → URL Configuration khi dùng preview mặc định. Không đặt `VITE_FUNCTIONS_URL` này trong bản GitHub Pages.
+
 ## Cấu hình backend
 
 1. Tạo Supabase project (free tier phù hợp cho MVP).

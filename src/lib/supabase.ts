@@ -11,7 +11,8 @@ export const supabase = isBackendConfigured ? createClient(url, key, {
 
 async function invokeFunction<T>(name: string, body: Record<string, unknown>): Promise<T> {
   if (!url || !key) throw new Error('Hệ thống chưa được cấu hình.')
-  const response = await fetch(`${url}/functions/v1/${name}`, {
+  const functionsUrl = import.meta.env.VITE_FUNCTIONS_URL || `${url}/functions/v1`
+  const response = await fetch(`${functionsUrl}/${name}`, {
     method: 'POST',
     headers: { apikey: key, Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
