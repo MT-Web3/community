@@ -1,9 +1,13 @@
 import { ArrowRight, CheckCircle2, Database, ExternalLink, MapPin, ShieldCheck } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 import { CampaignCard } from '../components/CampaignCard'
-import { publicCampaigns } from '../data'
+import { getPublicCampaigns } from '../lib/supabase'
+import type { Campaign } from '../types'
 
 export function Home() {
+  const [publicCampaigns,setPublicCampaigns]=useState<Campaign[]>([])
+  useEffect(()=>{getPublicCampaigns().then(setPublicCampaigns).catch(()=>setPublicCampaigns([]))},[])
   return <>
     <section className="hero"><div className="container hero-grid"><div>
       <p className="kicker"><span/> 000 · COMMUNITY PROTOCOL</p>
