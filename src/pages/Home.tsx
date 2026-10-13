@@ -6,11 +6,11 @@ import { publicCampaigns } from '../data'
 export function Home() {
   return <>
     <section className="hero"><div className="container hero-grid"><div>
-      <p className="kicker"><span/> COMMUNITY INFRASTRUCTURE</p>
-      <h1>Đóng góp thật.<br/><em>Cơ hội xứng đáng.</em></h1>
-      <p className="hero-copy">Nền tảng tổ chức chiến dịch Web3 dành cho cộng đồng Việt Nam — minh bạch trong tiêu chí, bảo mật trong dữ liệu và công bằng trong xét duyệt.</p>
+      <p className="kicker"><span/> 000 · COMMUNITY PROTOCOL</p>
+      <h1>Seen by all.<br/><em>Earned by contribution.</em></h1>
+      <p className="hero-copy">Hạ tầng chiến dịch Web3 dành cho cộng đồng Việt Nam — tiêu chí công khai, dữ liệu được bảo vệ và mọi quyết định đều dựa trên đóng góp thực chất.</p>
       <div className="hero-actions"><Link className="button primary" to="/campaigns">Khám phá chiến dịch <ArrowRight size={18}/></Link><Link className="button secondary" to="/status">Tra cứu hồ sơ</Link></div>
-    </div><div className="hero-mascot" aria-hidden="true"><div className="mascot-halo"/><img src="/community/assets/mt-web3-mascot.png" alt=""/><span className="mascot-tag">BUILT FOR CONTRIBUTORS</span></div></div></section>
+    </div><div className="protocol-panel" aria-hidden="true"><div className="protocol-top"><span>MTW3/GENESIS</span><span>SEALED</span></div><div className="protocol-mark">{Array.from({length:8},(_,index)=><i key={index}/>)}</div><div className="protocol-readout"><span>NETWORK<br/><b>ETHEREUM</b></span><span>PRIVACY<br/><b>BY DESIGN</b></span><span>STATUS<br/><b>READY</b></span></div></div></div></section>
     <section className="proof"><div className="container proof-grid">
       <div><strong>{publicCampaigns.length}</strong><span>Chiến dịch đang công khai</span></div>
       <div><strong>0</strong><span>Hồ sơ công khai danh tính</span></div>

@@ -10,7 +10,7 @@ export function CampaignCard({ campaign, admin = false }: { campaign: Campaign; 
     <div className="campaign-body"><div className="eyebrow-row"><span className={`status ${campaign.status}`}>{labels[campaign.status]}</span><span>{campaign.type}</span></div>
       <h3>{campaign.name}</h3><p>{campaign.description}</p>
       <div className="campaign-meta"><CalendarDays size={16}/><span>{campaign.startsAt ? new Date(campaign.startsAt).toLocaleDateString('vi-VN') : 'Chưa ấn định'}</span></div>
-      <Link className="text-link" to={admin ? `/admin/campaigns/${campaign.slug}` : `/campaigns/${campaign.slug}`}>{admin ? 'Chỉnh sửa' : 'Xem chi tiết'} <ArrowUpRight size={17}/></Link>
+      <div className="card-links"><Link className="text-link" to={admin ? `/admin/campaigns/${campaign.slug}` : `/campaigns/${campaign.slug}`}>{admin ? 'Chỉnh sửa' : 'Xem chi tiết'} <ArrowUpRight size={17}/></Link>{isFungo&&<a className="text-link muted-link" href="https://x.com/FungoLabs" target="_blank" rel="noreferrer">@FungoLabs <ArrowUpRight size={15}/></a>}</div>
     </div>
   </article>
 }
