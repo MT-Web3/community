@@ -8,14 +8,15 @@ export function LiquidInteractions() {
     let frame = 0, target: HTMLElement | null = null
     let x = 0, y = 0, px = 0, py = 0, visible = false
     function release() {
-      if (target) { target.classList.remove('liquid-hover'); target.style.removeProperty('--soft-x'); target.style.removeProperty('--soft-y'); target.style.removeProperty('--soft-turn'); target = null }
+      if (target) { target.classList.remove('liquid-hover'); for (const name of ['--soft-x','--soft-y','--soft-turn','--hit-x','--hit-y']) target.style.removeProperty(name); target = null }
     }
     function move(event: PointerEvent) {
       if (!media.matches || event.pointerType === 'touch') return
       x = event.clientX; y = event.clientY
       if (!visible) { px = x; py = y }
       visible = true
-      const element = (event.target as Element).closest<HTMLElement>('button:not(:disabled),a')
+      document.documentElement.classList.add('custom-pointer')
+      const element = (event.target as Element).closest<HTMLElement>('button:not(:disabled),a,.campaign-card,.form-panel,.story-art,.motion-stage,.play-object,.play-surface,img')
       if (element !== target) { release(); target = element }
       if (target) {
         const rect = target.getBoundingClientRect()
@@ -25,9 +26,11 @@ export function LiquidInteractions() {
         target.style.setProperty('--soft-x', `${dx * 5}px`)
         target.style.setProperty('--soft-y', `${dy * 4}px`)
         target.style.setProperty('--soft-turn', `${dx * 2}deg`)
+        target.style.setProperty('--hit-x', `${(dx + 1) * 50}%`)
+        target.style.setProperty('--hit-y', `${(dy + 1) * 50}%`)
       }
     }
-    function leave() { visible = false; release() }
+    function leave() { visible = false; document.documentElement.classList.remove('custom-pointer'); release() }
     function tick() {
       const node = cursor.current
       if (node) {
