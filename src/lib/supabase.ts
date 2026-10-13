@@ -7,10 +7,11 @@ export const isBackendConfigured = Boolean(url && key)
 export const supabase = isBackendConfigured ? createClient(url, key, { auth: { persistSession: true, autoRefreshToken: true } }) : null
 
 async function readableFunctionError(error: unknown) {
-  const context = (error as { context?: Response })?.context
-  if (context instanceof Response) {
+  const context = (error as { context?: { clone?: () => { json?: () => Promise<unknown> }, json?: () => Promise<unknown> } })?.context
+  const response = context?.clone?.() ?? context
+  if (response?.json) {
     try {
-      const payload = await context.clone().json() as { error?: string }
+      const payload = await response.json() as { error?: string }
       if (payload.error) return new Error(payload.error)
     } catch {
       // Fall through to the SDK message when the response is not JSON.
