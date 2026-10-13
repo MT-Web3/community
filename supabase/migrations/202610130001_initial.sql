@@ -68,7 +68,7 @@ create policy "admins manage applications" on public.applications for all using 
 create policy "admins read roles" on public.admin_users for select using (public.is_admin());
 
 insert into public.campaigns (slug,name,project,description,campaign_type,status,reward,requirements,form_config,review_rules)
-values ('fungolabs-vietnam-2026','FungoLabs — Community Contributors','FungoLabs','Ghi nhận contributor Việt Nam tạo nội dung nguyên bản và đóng góp thực chất.','Community Nomination','draft','Chưa công bố',
+values ('fungolabs-vietnam-2026','FungoLabs — Community Contributors','FungoLabs','Chương trình nomination dành cho contributor Việt Nam của dự án NFT mã hóa trên Ethereum, xây dựng với FHE của Zama.','Community Nomination','draft','Quyền lợi đang chờ xác nhận chính thức',
   '["Có ít nhất 2 bài đăng gốc về FungoLabs trước 00:00 ngày 13/10/2026 (UTC+7).","Cung cấp 2 liên kết bài đăng X.","Không tính repost, nội dung sao chép hoặc spam.","Mỗi người chỉ tham gia một lần.","Không đánh giá theo follower hoặc tương tác."]',
   '{"walletRequired":false,"fields":["xUsername","xProfileUrl","postUrl1","postUrl2"]}',
   '{"manualReview":true,"prioritizeSubstantiveContributions":true}');
