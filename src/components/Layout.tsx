@@ -21,7 +21,6 @@ export function Layout() {
         <NavLink to="/campaigns" onClick={() => setOpen(false)}>{t("Chiến dịch")}</NavLink>
         <NavLink to="/status" onClick={() => setOpen(false)}>{t("Tra cứu")}</NavLink>
         <NavLink to="/story" onClick={() => setOpen(false)}>{language === 'vi' ? 'Câu chuyện' : 'Story'}</NavLink>
-        <NavLink to="/play/gm-radio" onClick={() => setOpen(false)}>{language === 'vi' ? 'Chơi xíu' : 'Play'}</NavLink>
         <NavLink to="/admin" onClick={() => setOpen(false)}>{t("Quản trị")}</NavLink>
       </nav>
       <div className="nav-actions">

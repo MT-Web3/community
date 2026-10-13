@@ -6,7 +6,6 @@ import { CampaignDetail } from './pages/CampaignDetail'
 import { StatusLookup } from './pages/StatusLookup'
 import { Admin } from './pages/Admin'
 import { Story } from './pages/Story'
-import { Playground } from './pages/Playground'
 
 export default function App() {
   return <Routes><Route element={<Layout />}>
@@ -15,9 +14,6 @@ export default function App() {
     <Route path="campaigns/:slug" element={<CampaignDetail />} />
     <Route path="status" element={<StatusLookup />} />
     <Route path="story" element={<Story />} />
-    <Route path="play/gm-radio" element={<Playground slug="gm-radio" />} />
-    <Route path="play/gas-cloud" element={<Playground slug="gas-cloud" />} />
-    <Route path="play/hodl-potato" element={<Playground slug="hodl-potato" />} />
     <Route path="admin/*" element={<Admin />} />
     <Route path="*" element={<Navigate to="/" replace />} />
   </Route></Routes>

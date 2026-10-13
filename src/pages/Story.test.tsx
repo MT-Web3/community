@@ -22,3 +22,12 @@ it('renders the fictional story in English', () => {
   fireEvent.click(screen.getByRole('button', {name:'Next chapter'}))
   expect(screen.getByRole('heading', {name:'Pay the toll in giggles.'})).toBeTruthy()
 })
+it('keeps the chosen path and collects each chapter memory once', () => {
+  render(<I18nProvider><Story/></I18nProvider>)
+  fireEvent.click(screen.getByRole('button', {name:'☾ Đường mặt trăng'}))
+  fireEvent.click(screen.getByRole('button', {name:'Refresh vũ trụ ✦'}))
+  fireEvent.click(screen.getByRole('button', {name:'Refresh vũ trụ ✦'}))
+  expect(screen.getByText(/Túi kỷ niệm/).textContent).toContain('1/4')
+  fireEvent.click(screen.getByRole('button', {name:'Chương tiếp'}))
+  expect(screen.getByText(/Bạn chọn đường mặt trăng/)).toBeTruthy()
+})
