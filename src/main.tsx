@@ -7,7 +7,8 @@ import './styles.css'
 const redirect = sessionStorage.getItem('redirect')
 if (redirect) {
   sessionStorage.removeItem('redirect')
-  history.replaceState(null, '', new URL(redirect).pathname.replace('/community', '') || '/')
+  const target = new URL(redirect)
+  history.replaceState(null, '', `${target.pathname}${target.search}${target.hash}`)
 }
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
