@@ -1,0 +1,12 @@
+node_modules
+node_modules.old
+package-lock.old.json
+dist
+.env
+.env.local
+.DS_Store
+*.log
+.vite
+*.tsbuildinfo
+vite.config.js
+vite.config.d.ts
