@@ -26,7 +26,15 @@ Nếu chưa cấu hình Supabase, website vẫn chạy ở chế độ read-only
 
 1. Tạo Supabase project (free tier phù hợp cho MVP).
 2. Chạy migration trong `supabase/migrations` bằng Supabase CLI.
-3. Thêm user quản trị vào `public.admin_users` bằng UUID từ Authentication.
+3. Thêm user quản trị vào `public.admin_users` bằng UUID từ Authentication:
+
+```sql
+insert into public.admin_users (user_id)
+values ('AUTH_USER_UUID')
+on conflict (user_id) do nothing;
+```
+
+Email được Supabase Auth quản lý trong `auth.users`; không lưu email hoặc role trong `public.admin_users`.
 4. Đặt Edge Function secrets: `HASH_SECRET` (chuỗi ngẫu nhiên dài), `TURNSTILE_SECRET_KEY`, `ALLOWED_ORIGIN=https://mt-web3.github.io`.
 5. Deploy hai functions: `submit-application` và `application-status`.
 6. Thêm GitHub repository secrets từ `.env.example`. Anon key là public-by-design nhưng vẫn được bảo vệ bằng RLS.
