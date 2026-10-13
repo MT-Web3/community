@@ -22,9 +22,8 @@ export function Layout() {
         <NavLink to="/" end onClick={() => setOpen(false)}>{t("Trang chủ")}</NavLink>
         <NavLink to="/campaigns" onClick={() => setOpen(false)}>{t("Chiến dịch")}</NavLink>
         <NavLink to="/status" onClick={() => setOpen(false)}>{t("Tra cứu")}</NavLink>
-        <NavLink to="/crypto" onClick={() => setOpen(false)}>Crypto</NavLink>
         <NavLink to="/admin" onClick={() => setOpen(false)}>{t("Quản trị")}</NavLink>
-        <div className="corner-menu"><button type="button" className="corner-trigger" aria-expanded={corner} aria-controls="tam-corner" onClick={()=>setCorner(!corner)} onKeyDown={e=>{if(e.key==='Escape')setCorner(false)}}>{language==='vi'?'Góc nhỏ của TΛM':'TΛM’s corner'} <span aria-hidden="true">⌄</span></button>{corner&&<div className="corner-popover" id="tam-corner" onKeyDown={e=>{if(e.key==='Escape')setCorner(false)}}><NavLink to="/story">{language==='vi'?'10 truyện hư cấu':'10 fictional stories'}</NavLink><NavLink to="/game">{language==='vi'?'TΛM diệt zombie':'TΛM vs zombies'}</NavLink><NavLink to="/chill">{language==='vi'?'Nhạc & chill':'Music & chill'}</NavLink></div>}</div>
+        <div className="corner-menu"><button type="button" className="corner-trigger" aria-expanded={corner} aria-controls="tam-corner" onClick={()=>setCorner(!corner)} onKeyDown={e=>{if(e.key==='Escape')setCorner(false)}}>{language==='vi'?'Góc nhỏ của TΛM':'TΛM’s corner'} <span aria-hidden="true">⌄</span></button>{corner&&<div className="corner-popover" id="tam-corner" onKeyDown={e=>{if(e.key==='Escape')setCorner(false)}}><NavLink to="/story">{language==='vi'?'Câu chuyện hư cấu':'A fictional story'}</NavLink></div>}</div>
       </nav>
       <div className="nav-actions">
         <div className="language-buttons" role="group" aria-label={t('Ngôn ngữ')}>{(['vi','en'] as const).map(item => <button key={item} aria-pressed={language === item} onClick={() => setLanguage(item)}>{item.toUpperCase()}</button>)}</div>

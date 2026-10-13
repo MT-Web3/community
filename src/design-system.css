@@ -2,50 +2,60 @@
 :root{--text-body:18px;--text-small:14px;--text-control:18px;--title-large:clamp(34px,4vw,54px);--title-medium:30px;--control-size:64px;--choice-size:52px;--icon-size:48px;--radius-control:18px;--radius-panel:28px;--hover-shadow:0 8px 24px #10261b18}
 body{font:400 var(--text-body)/1.6 'Segoe UI',Arial,sans-serif}
 h1,h2,h3{font-family:Unbounded,'Segoe UI',sans-serif!important;font-weight:700!important;line-height:1.25!important;letter-spacing:-.035em!important}
-h1,.page-title,.hub-heading h1,.story-copy h1{font-size:var(--title-large)!important}
-h2,.chill-caption h2,.crypto-panel h2,.calendar-title h2{font-size:var(--title-medium)!important}
+h1,.page-title,.story-copy h1{font-size:var(--title-large)!important}
+h2,.calendar-title h2{font-size:var(--title-medium)!important}
 h3,.campaign-card .campaign-body h3{font-size:24px!important}
-p,.hero-copy,.story-prose,.crypto-panel>p,.chill-caption p,.game-overlay p{font-family:'Segoe UI',Arial,sans-serif!important;font-size:var(--text-body)!important;line-height:1.65!important}
-.fine,small,.kicker,.story-fiction,.story-punchline,.story-route-note,.stage-caption,.game-controls,.play-footer{font-size:var(--text-small)!important;line-height:1.6!important}
+p,.hero-copy,.story-prose{font-family:'Segoe UI',Arial,sans-serif!important;font-size:var(--text-body)!important;line-height:1.65!important}
+.fine,small,.kicker,.story-fiction,.story-punchline,.stage-caption{font-size:var(--text-small)!important;line-height:1.6!important}
 .monday-editorial h1{font-size:clamp(48px,6vw,78px)!important}
 .kinetic-word{font:600 clamp(28px,3.5vw,44px)/1.4 'Segoe UI',Arial,sans-serif!important;letter-spacing:0!important;word-spacing:0!important;font-kerning:normal;font-variant-ligatures:normal;white-space:nowrap;height:1.5em;overflow:visible}
 .kinetic-word span{font:inherit!important;letter-spacing:0!important;word-spacing:0!important;filter:none!important;transform:none!important;scale:1!important;rotate:none!important;translate:none!important;animation:word-fade .3s ease both!important}
-.button,.monday-editorial .button,.chill-player .button,.story-copy .button{min-height:var(--control-size)!important;font:600 var(--text-control)/1.3 'Segoe UI',Arial,sans-serif!important;padding:14px 24px!important;border-radius:var(--radius-control)!important;gap:10px}
+.button,.monday-editorial .button,.story-copy .button{min-height:var(--control-size)!important;font:600 var(--text-control)/1.3 'Segoe UI',Arial,sans-serif!important;padding:14px 24px!important;border-radius:var(--radius-control)!important;gap:10px}
 input:not([type=checkbox]):not([type=range]),select,.date-trigger{min-height:var(--control-size)!important;font:400 var(--text-control)/1.4 'Segoe UI',Arial,sans-serif!important;border-radius:var(--radius-control)!important;padding:14px 16px!important}
 textarea{font:400 var(--text-body)/1.6 'Segoe UI',Arial,sans-serif!important;border-radius:var(--radius-control)!important;padding:14px 16px}
 .form-panel label,.date-control>span,.choice-field legend{font-size:var(--text-control)!important}
 .icon-button,.nav-actions .icon-button,.story-bottom .icon-button{width:var(--icon-size)!important;height:var(--icon-size)!important;min-width:var(--icon-size)!important;min-height:var(--icon-size)!important;border-radius:16px!important}
-.choice-buttons button,.time-choices button,.calendar-shortcuts button,.story-route button,.chill-moods button,.music-source button,.game-hud button,.touch-pad button,.crypto-workspace nav button{min-height:var(--choice-size)!important;font:600 var(--text-control)/1.4 'Segoe UI',Arial,sans-serif!important;padding:10px 16px!important;border-radius:16px!important}
+.choice-buttons button,.time-choices button,.calendar-shortcuts button{min-height:var(--choice-size)!important;font:600 var(--text-control)/1.4 'Segoe UI',Arial,sans-serif!important;padding:10px 16px!important;border-radius:16px!important}
 .calendar-days button{min-height:44px!important;height:44px!important;font-size:var(--text-control)!important}
 .story-tabs button{width:var(--choice-size)!important;height:var(--choice-size)!important;font:600 var(--text-control)/1 'Segoe UI',Arial,sans-serif!important;border-radius:16px!important}
 .language-buttons button{height:var(--icon-size)!important;width:42px!important;font-size:16px!important}
 .nav a,.corner-trigger{font:600 16px/1.4 'Segoe UI',Arial,sans-serif!important;min-height:var(--icon-size)!important;padding:10px 12px!important;border-radius:14px!important;white-space:nowrap}
-.campaign-card,.form-panel,.crypto-panel,.chill-room,.game-arena,.play-surface{border-radius:var(--radius-panel)!important}
-button,a,.campaign-card,.form-panel,.crypto-panel,img{filter:none!important;scale:1!important;rotate:none!important;translate:none!important}
+.campaign-card,.form-panel{border-radius:var(--radius-panel)!important}
+button,a,.campaign-card,.form-panel,img{filter:none!important;scale:1!important;rotate:none!important;translate:none!important}
 button,a.button,.campaign-card{transition:background-color .2s,border-color .2s,box-shadow .2s,transform .2s!important}
 .campaign-card:hover{transform:translateY(-3px)!important;box-shadow:var(--hover-shadow);border-color:#a9c6b6}
 .button:hover:not(:disabled){transform:translateY(-2px)!important;box-shadow:var(--hover-shadow)!important}
 .pointer-highlight{box-shadow:0 0 0 2px #a9c6b655,var(--hover-shadow)!important}
-.button.pointer-highlight:not(.primary),.crypto-panel.pointer-highlight,.form-panel.pointer-highlight{background-image:radial-gradient(120px circle at var(--pointer-x,50%) var(--pointer-y,50%),#eab87812,transparent)!important}
-.game-page button:hover{transform:none!important}
+.button.pointer-highlight:not(.primary),.form-panel.pointer-highlight{background-image:radial-gradient(120px circle at var(--pointer-x,50%) var(--pointer-y,50%),#eab87812,transparent)!important}
 .refined-cursor{position:fixed;left:-7px;top:-7px;width:14px;height:14px;background:#f0b777;border:2px solid #191b18;border-radius:50%;z-index:10000;pointer-events:none;opacity:0;transition:opacity .12s,background .2s,box-shadow .2s;box-shadow:0 0 0 3px #f9f6ed88}
 .refined-cursor[data-visible=true]{opacity:1}.refined-cursor[data-active=true]{background:#b5d5c3;box-shadow:0 0 0 6px #b5d5c322}
 .corner-menu{position:relative}.corner-trigger{display:flex;align-items:center;gap:8px;background:transparent;border:0;color:var(--ink)}
 .corner-popover{position:absolute;top:calc(100% + 12px);right:0;width:270px;padding:10px;background:var(--surface);border:1px solid var(--line);border-radius:20px;box-shadow:0 14px 40px #0002;z-index:50;display:grid;gap:5px}
 .corner-popover a{display:flex!important;white-space:normal!important}.corner-popover a:hover{background:var(--surface-2)}
-.music-source{display:flex;gap:8px}.music-source button{border:1px solid var(--line);background:var(--surface);color:var(--ink)}.music-source button[aria-pressed=true]{background:#bfd9ca;color:#183021}
-.chill-page{grid-template-rows:auto minmax(0,1fr) auto}.chill-caption h2{margin:0 0 12px}.chill-caption>p{margin:10px 0}.siro-player{width:100%;height:230px;min-height:200px;border:0;border-radius:16px;background:#111}
-.music-original{display:block;margin:12px 0;font-size:var(--text-small)}.chill-caption .equalizer{display:none}
-.game-three-host{position:absolute;inset:0;pointer-events:none}.game-three-surface{display:block;width:100%!important;height:100%!important;object-fit:fill!important}.game-arena>canvas{position:relative;z-index:1}.game-overlay{z-index:2}
 .nav{gap:3px}.nav-wrap{gap:12px}
 @media(min-width:651px) and (max-width:1250px){.nav:not(.open){display:flex!important}.menu-button{display:none!important}.nav a,.corner-trigger{font-size:14px!important;padding:8px!important}.brand b{font-size:13px}}
 @media(max-width:900px) and (min-width:651px){.nav:not(.open){display:none!important}.menu-button{display:inline-flex!important}.nav.open{position:absolute;top:78px;left:20px;right:20px;display:flex;flex-wrap:wrap;background:var(--surface);padding:16px;border-radius:20px;border:1px solid var(--line)}}
-@media(max-width:650px){:root{--text-body:17px;--text-control:16px;--text-small:13px;--title-large:30px;--title-medium:25px;--control-size:58px;--choice-size:48px;--icon-size:44px;--radius-panel:22px}.monday-editorial h1{font-size:40px!important}.kinetic-word{font-size:28px!important}.nav.open{display:flex!important;flex-direction:column;align-items:stretch}.corner-menu{width:100%}.corner-trigger{width:100%;justify-content:space-between}.corner-popover{position:static;width:100%;margin-top:6px;box-shadow:none}.language-buttons button{width:34px!important}.button,.monday-editorial .button{padding:12px 18px!important}.chill-room{overflow:auto}.chill-room>img{min-height:160px;max-height:230px}.chill-caption{width:100%}.siro-player{height:200px}.music-source button{min-height:44px!important}.game-hud button{min-height:44px!important;font-size:14px!important}.touch-pad button{padding:8px 12px!important}.chill-player{padding-bottom:4px}.calendar-dialog{width:100%}.chill-player label{font-size:16px}}
+@media(max-width:650px){:root{--text-body:17px;--text-control:16px;--text-small:13px;--title-large:30px;--title-medium:25px;--control-size:58px;--choice-size:48px;--icon-size:44px;--radius-panel:22px}.monday-editorial h1{font-size:40px!important}.kinetic-word{font-size:28px!important}.nav.open{display:flex!important;flex-direction:column;align-items:stretch}.corner-menu{width:100%}.corner-trigger{width:100%;justify-content:space-between}.corner-popover{position:static;width:100%;margin-top:6px;box-shadow:none}.language-buttons button{width:34px!important}.button,.monday-editorial .button{padding:12px 18px!important}.calendar-dialog{width:100%}}
 @media(prefers-reduced-motion:reduce){.refined-cursor{display:none}.button:hover,.campaign-card:hover{transform:none!important}}
 @media(pointer:coarse){.refined-cursor{display:none}}
 
-footer p{font-size:var(--text-small)!important;line-height:1.4!important}.game-arena>canvas{border-radius:0!important}.siro-player{display:block}
+footer p{font-size:var(--text-small)!important;line-height:1.4!important}
 
 .monday-editorial{max-height:100%;overflow:auto;scrollbar-width:thin}.monday-editorial h1{font-size:clamp(44px,5vw,68px)!important}.monday-editorial .hero-copy{margin:12px 0 16px}.monday-builder{margin-top:12px}.monday-editorial .kicker{margin-bottom:12px}.kinetic-word{margin-top:6px;height:1.35em}
 @media(max-height:800px) and (min-width:651px){.monday-editorial h1{font-size:56px!important}.kinetic-word{font-size:32px!important}.monday-builder{display:none}.monday-editorial .hero-copy{margin:10px 0 14px}.monday-editorial .kicker{margin-bottom:8px}}
-.siro-actions{display:flex;gap:10px;flex-wrap:wrap}.siro-actions .button{font-size:16px!important}.chill-room .button{background-image:none!important}
+/* Liquid glass surfaces: clear content, soft contours, restrained reflections. */
+:root{--glass-fill:rgba(255,255,255,.54);--glass-edge:rgba(255,255,255,.85);--glass-shadow:0 6px 24px rgba(45,69,58,.065);--glass-selected:rgba(125,174,151,.2);--radius-control:24px;--radius-panel:32px}
+:root[data-theme=dark]{--glass-fill:rgba(255,255,255,.045);--glass-edge:rgba(255,255,255,.16);--glass-shadow:0 8px 30px rgba(0,0,0,.12);--glass-selected:rgba(143,189,162,.14)}
+body{background:radial-gradient(ellipse at 10% 10%,#d7e7de50,transparent 45%),radial-gradient(ellipse at 90% 90%,#edd9c93b,transparent 45%),var(--bg)}
+[data-theme=dark] body{background:radial-gradient(ellipse at 10% 10%,#21382e40,transparent 45%),radial-gradient(ellipse at 90% 90%,#43322025,transparent 45%),var(--bg)}
+.button,.button.primary,.icon-button,.date-trigger,.choice-buttons button,.time-choices button,.calendar-days button,.calendar-shortcuts button,.story-tabs button,.nav a.active,.language-buttons,.corner-popover,input:not([type=checkbox]):not([type=range]),textarea{background:linear-gradient(150deg,rgba(255,255,255,.1),rgba(255,255,255,0)),var(--glass-fill)!important;border:1px solid var(--glass-edge)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.2),var(--glass-shadow)!important;backdrop-filter:blur(18px) saturate(135%);-webkit-backdrop-filter:blur(18px) saturate(135%);color:var(--ink)!important;font-weight:500!important}
+.button.primary,.choice-buttons button[aria-pressed=true],.time-choices button[aria-pressed=true],.story-tabs button[aria-pressed=true],.calendar-days button.selected,.language-buttons button[aria-pressed=true]{background:linear-gradient(150deg,rgba(255,255,255,.15),rgba(255,255,255,0)),var(--glass-selected)!important;border:1px solid color-mix(in srgb,var(--ink) 18%,transparent)!important;color:var(--ink)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.24),var(--glass-shadow)!important}
+.language-buttons button{border-radius:14px!important}.language-buttons{padding:4px}.icon-button,.choice-buttons button,.time-choices button,.story-tabs button{border-radius:20px!important}.nav a.active{border-radius:20px!important}.corner-trigger{font-weight:500!important}
+.campaign-card,.form-panel,.calendar-dialog,.corner-popover{background:var(--glass-fill)!important;border:1px solid var(--glass-edge)!important;backdrop-filter:blur(24px) saturate(130%);-webkit-backdrop-filter:blur(24px) saturate(130%);box-shadow:inset 0 1px 0 rgba(255,255,255,.18),var(--glass-shadow)!important}
+.header{background:color-mix(in srgb,var(--bg) 70%,transparent);backdrop-filter:blur(20px);border-bottom:1px solid color-mix(in srgb,var(--ink) 8%,transparent)}
+.button:hover:not(:disabled),.pointer-highlight{box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 8px 26px rgba(95,148,119,.12)!important;border-color:color-mix(in srgb,var(--ink) 24%,transparent)!important}
+.button:active:not(:disabled){transform:translateY(0)!important}.pointer-highlight{background-image:radial-gradient(100px circle at var(--pointer-x,50%) var(--pointer-y,50%),rgba(255,255,255,.12),transparent)!important}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid #7caa92;outline-offset:4px}
+.calendar-backdrop{background:rgba(24,35,29,.3);backdrop-filter:blur(6px)}.story-tabs{max-width:none;overflow:visible}.story-top{flex-wrap:wrap}.story-scene{overflow:hidden}.story-art{min-height:0}.story-copy{max-height:100%;overflow:auto}.story-prose{font-size:var(--text-body)!important}.story-bottom>span{font-size:var(--text-small)}
+@media(prefers-reduced-transparency:reduce){:root{--glass-fill:var(--surface)}.button,.form-panel,.campaign-card,.calendar-dialog{backdrop-filter:none}}
+.filters button,.tabs button{min-height:var(--choice-size);font:500 var(--text-control)/1.4 'Segoe UI',Arial,sans-serif;padding:10px 16px;border-radius:20px;background:var(--glass-fill)!important;color:var(--ink)!important;border:1px solid var(--glass-edge)!important;box-shadow:inset 0 1px 0 #ffffff25,var(--glass-shadow);backdrop-filter:blur(18px)}.filters button.active,.tabs button.active{background:var(--glass-selected)!important;border-color:color-mix(in srgb,var(--ink) 18%,transparent)!important}.search{padding:0;background:var(--glass-fill)!important;border:1px solid var(--glass-edge);border-radius:var(--radius-control);backdrop-filter:blur(18px)}.search>svg{margin-left:16px;flex-shrink:0}.search input{border:0!important;background:transparent!important;box-shadow:none!important}.corner-trigger{border:1px solid var(--glass-edge);background:var(--glass-fill);backdrop-filter:blur(18px)}
