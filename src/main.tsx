@@ -6,6 +6,7 @@ import { I18nProvider } from './lib/i18n'
 import './styles.css'
 import './workspace.css'
 import './experience.css'
+import './playful.css'
 
 const redirect = sessionStorage.getItem('redirect')
 if (redirect) {
