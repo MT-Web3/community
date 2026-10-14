@@ -14,7 +14,8 @@ export function Layout() {
   const [open, setOpen] = useState(false)
   useEffect(()=>{setOpen(false)},[pathname])
   useEffect(() => { document.documentElement.dataset.theme = theme; localStorage.setItem('mt-theme', theme) }, [theme])
-  return <div className="app-shell">
+  const isHome = pathname === '/'
+  return <div className={`app-shell${isHome ? ' has-profile-footer' : ''}`}>
     <LiquidInteractions />
     <header className="header"><div className="container nav-wrap">
       <Link to="/" onClick={() => setOpen(false)}><Logo /></Link>
