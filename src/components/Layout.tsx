@@ -1,5 +1,5 @@
 import { useI18n } from '../lib/i18n'
-import { Moon, Sun, Menu, X, ExternalLink } from 'lucide-react'
+import { Moon, Sun, Menu, X, ExternalLink, BadgeCheck } from 'lucide-react'
 import { Suspense, useEffect, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { Logo } from './Logo'
@@ -30,6 +30,6 @@ export function Layout() {
       </div>
     </div></header>
     <main><div className="view-transition" key={pathname}><Suspense fallback={<div className="empty"><h2>{t("Đang tải…")}</h2></div>}><Outlet /></Suspense></div></main>
-    <footer><div className="container footer-grid"><Logo /><p>{t("Nền tảng chiến dịch cộng đồng Web3 minh bạch, bảo mật và có trách nhiệm.")}</p><div className="footer-owner"><a className="x-profile-link" href="https://x.com/daomintam" target="_blank" rel="noreferrer" aria-label="@daomintam trên X" title="@daomintam trên X"><XLogo size={17}/><span>@daomintam</span><ExternalLink size={13}/></a><p className="dev-sign">{language === 'vi' ? 'Thiết kế & phát triển bởi MT-Web3' : 'Designed & built by MT-Web3'}</p><p className="fine">© 2026 MT-Web3 Community</p></div></div></footer>
+    <footer className="profile-footer"><a className="x-profile-card footer-profile-card" href="https://x.com/daomintam" target="_blank" rel="noreferrer" aria-label={t("Mở hồ sơ TΛM trên X")}><img className="x-profile-card-avatar" src="/community/assets/tam-profile.png" alt="TΛM"/><span className="x-profile-card-body"><span className="x-profile-card-name">TΛM <img className="diamond-emoji" src="https://abs.twimg.com/emoji/v2/svg/1f536.svg" alt="" aria-hidden="true"/> <BadgeCheck className="verified-badge" size={15} fill="currentColor"/></span><span className="x-profile-card-handle">@daomintam</span><span className="x-profile-card-bio">{t("Dev · Web3 & Crypto · Creator")}</span><span className="x-profile-card-meta"><span><b>9.295</b> {t("Đang theo dõi")}</span><span><b>9.339</b> {t("Người theo dõi")}</span></span></span><span className="x-profile-card-action"><XLogo size={15}/><ExternalLink size={13}/></span></a></footer>
   </div>
 }
