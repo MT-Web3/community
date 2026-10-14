@@ -61,6 +61,7 @@ body { background: var(--bg); }
 .x-profile-card-action .x-logo{color:var(--ink)}
 .app-shell{padding-bottom:190px}
 .profile-footer{position:fixed;z-index:30;left:18px;bottom:22px;display:flex;justify-content:flex-start;width:min(100% - 36px,365px);padding:0;border:0;pointer-events:none}
+.app-shell>footer.profile-footer{border-top:0;background:transparent}
 .footer-profile-card{margin:0;width:100%;min-height:154px;padding:70px 16px 16px;pointer-events:auto;background:linear-gradient(145deg,rgba(255,255,255,.44),rgba(255,255,255,.16));border:1px solid rgba(255,255,255,.7);box-shadow:0 24px 55px rgba(22,28,25,.22),inset 0 1px 0 rgba(255,255,255,.8);backdrop-filter:blur(24px) saturate(145%);-webkit-backdrop-filter:blur(24px) saturate(145%)}
 .footer-profile-card .x-profile-card-avatar{top:-68px;left:16px;width:142px;height:142px;filter:drop-shadow(0 18px 16px rgba(25,28,26,.3))}
 .footer-profile-card .x-profile-card-body{gap:5px}.footer-profile-card .x-profile-card-name{font-size:20px;line-height:1.15}.footer-profile-card .x-profile-card-handle{font-size:14px}.footer-profile-card .x-profile-card-bio{font-size:13px}.footer-profile-card .x-profile-card-meta{font-size:12px;gap:14px;margin-top:7px}.footer-profile-card .x-profile-card-action{position:absolute;right:16px;top:38px}
