@@ -61,6 +61,7 @@ body { background: var(--bg); }
 .x-profile-card-action .x-logo{color:var(--ink)}
 .app-shell.has-profile-footer{padding-bottom:190px}.app-shell:not(.has-profile-footer) .profile-footer{display:none}
 .secret-hold-active{cursor:progress!important}.secret-hold-active img{filter:saturate(2) hue-rotate(18deg) drop-shadow(0 0 12px var(--accent));transition:filter .2s ease}.secret-hold-active .brand b,.secret-hold-active .brand small{color:var(--accent)}
+.menu-settings{width:min(1180px,calc(100% - 40px));margin:18px auto 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap}.menu-settings strong{margin-right:auto}.menu-settings .button{min-height:38px;padding:0 12px;font-size:12px}
 .profile-footer{position:fixed;z-index:30;left:18px;bottom:22px;display:flex;justify-content:flex-start;width:min(100% - 36px,365px);padding:0;border:0;pointer-events:none}
 .app-shell>footer.profile-footer{border-top:0;background:transparent}
 .footer-profile-card{margin:0;width:100%;min-height:154px;padding:70px 16px 16px;pointer-events:auto;background:linear-gradient(145deg,rgba(255,255,255,.44),rgba(255,255,255,.16));border:1px solid rgba(255,255,255,.7);box-shadow:0 24px 55px rgba(22,28,25,.22),inset 0 1px 0 rgba(255,255,255,.8);backdrop-filter:blur(24px) saturate(145%);-webkit-backdrop-filter:blur(24px) saturate(145%)}

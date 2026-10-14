@@ -126,6 +126,12 @@ function Dashboard() {
   return <section className="page section dashboard-page"><div className="container"><div className="admin-head"><div><p className="kicker">MT-WEB3 · {t('QUẢN TRỊ')}</p><h1 className="page-title">{t("Không gian quản trị")}</h1></div><div className="dashboard-actions"><button className="button secondary" onClick={() => supabase?.auth.signOut()}><LogOut size={18}/>{" " + t("Đăng xuất")}</button><Link className="button primary" to="/admin/new"><Plus size={20}/>{" " + t("Tạo chiến dịch")}</Link></div></div><div className="workspace-tabs" role="tablist" aria-label={t("Quản trị")}><button role="tab" aria-selected={tab === 'campaigns'} onClick={() => setTab('campaigns')}>{t("Chiến dịch") + " "}<span>{campaigns.length}</span></button><button role="tab" aria-selected={tab === 'applications'} onClick={() => setTab('applications')}>{t("Hồ sơ & xuất CSV")}</button></div><div className="dashboard-content" role="tabpanel">{tab === 'campaigns' ? loading ? <div className="empty">{t("Đang tải chiến dịch…")}</div> : error ? <p role="alert">{t(error || '')}</p> : campaigns.length ? <div className="card-grid">{campaigns.map(campaign => <CampaignCard key={campaign.id} campaign={campaign} admin/>)}</div> : <div className="empty"><h3>{t("Bắt đầu với chiến dịch đầu tiên")}</h3><Link className="button primary" to="/admin/new">{t("Tạo chiến dịch")}</Link></div> : <ApplicationManager/>}</div></div></section>
 }
 
+function MenuVisibilitySettings() {
+  const [config, setConfig] = useState<Record<string, boolean>>(() => JSON.parse(localStorage.getItem('mt-menu-config') || '{}'))
+  function toggle(key: string) { const next = { ...config, [key]: config[key] === false }; setConfig(next); localStorage.setItem('mt-menu-config', JSON.stringify(next)); window.dispatchEvent(new Event('storage')) }
+  return <section className="menu-settings" aria-label="Site menu visibility"><strong>Site menu visibility</strong><button className="button secondary" onClick={() => toggle('about')}>About: {config.about === false ? 'Hidden' : 'Visible'}</button><button className="button secondary" onClick={() => toggle('story')}>Story: {config.story === false ? 'Hidden' : 'Visible'}</button></section>
+}
+
 export function Admin() {
   const { t } = useI18n()
 
@@ -167,5 +173,5 @@ export function Admin() {
   if (!session) return <section className="page section auth-page"><div className="container narrow">{message && <p className="form-message" role="alert">{t(message || '')}</p>}<LoginForm/></div></section>
   if (!authorized) return <section className="page section auth-page"><div className="container narrow admin-login"><LockKeyhole/><h2>{t("Tài khoản chưa được cấp quyền")}</h2><p>{message || t("Liên hệ người quản trị để cấp quyền cho tài khoản của bạn.")}</p><button className="button secondary" onClick={() => supabase?.auth.signOut()}>{t("Đăng xuất")}</button></div></section>
   if (slug || location.pathname.endsWith('/admin/new')) return <CampaignEditor key={slug || 'new'} slug={slug}/>
-  return <Dashboard/>
+  return <><MenuVisibilitySettings/><Dashboard/></>
 }
