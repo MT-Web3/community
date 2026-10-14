@@ -47,7 +47,7 @@ export function MotionStage() {
         context!.strokeStyle = ink; context!.lineWidth = 2
         context!.beginPath(); context!.moveTo(-5,0); context!.lineTo(5,0); context!.moveTo(0,-5); context!.lineTo(0,5); context!.stroke(); context!.restore()
       }
-      if (!reduced.matches) frame = requestAnimationFrame(draw)
+      frame = requestAnimationFrame(draw)
     }
     function refresh() { resize(); cancelAnimationFrame(frame); frame = requestAnimationFrame(draw) }
     const observer = new ResizeObserver(refresh); observer.observe(element)
