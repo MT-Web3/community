@@ -3,7 +3,7 @@ import {useEffect,useRef} from 'react'
 export function LiquidInteractions(){
   const cursor=useRef<HTMLDivElement>(null)
   useEffect(()=>{
-    const media=matchMedia('(pointer:fine) and (prefers-reduced-motion:no-preference)')
+    const media=matchMedia('(pointer:fine)')
     let target:HTMLElement|null=null
     function clear(){target?.classList.remove('pointer-highlight');target?.style.removeProperty('--pointer-x');target?.style.removeProperty('--pointer-y');target=null}
     function move(event:PointerEvent){

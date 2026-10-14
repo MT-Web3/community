@@ -10,7 +10,7 @@ export function CampaignCard({ campaign, admin = false }: { campaign: Campaign; 
 
   const isFungo = campaign.slug.startsWith('fungolabs')
   return <article className={`campaign-card${isFungo ? ' fungo-card' : ''}`} style={{ '--accent': campaign.accent } as React.CSSProperties} onPointerMove={event => {
-    if (event.pointerType !== 'mouse' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    if (event.pointerType !== 'mouse') return
     const rect = event.currentTarget.getBoundingClientRect()
     event.currentTarget.style.setProperty('--mx', `${event.clientX - rect.left}px`)
     event.currentTarget.style.setProperty('--my', `${event.clientY - rect.top}px`)
