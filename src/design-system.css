@@ -18,7 +18,7 @@ textarea{font:400 var(--text-body)/1.6 'Segoe UI',Arial,sans-serif!important;bor
 .choice-buttons button,.time-choices button,.calendar-shortcuts button{min-height:var(--choice-size)!important;font:600 var(--text-control)/1.4 'Segoe UI',Arial,sans-serif!important;padding:10px 16px!important;border-radius:16px!important}
 .calendar-days button{min-height:44px!important;height:44px!important;font-size:var(--text-control)!important}
 .story-tabs button{width:var(--choice-size)!important;height:var(--choice-size)!important;font:600 var(--text-control)/1 'Segoe UI',Arial,sans-serif!important;border-radius:16px!important}
-.language-buttons button{height:var(--icon-size)!important;width:42px!important;font-size:16px!important}
+.language-buttons button{height:40px!important;width:42px!important;font-size:16px!important}
 .nav a{font:600 16px/1.4 'Segoe UI',Arial,sans-serif!important;min-height:var(--icon-size)!important;padding:10px 12px!important;border-radius:14px!important;white-space:nowrap}
 .campaign-card,.form-panel{border-radius:var(--radius-panel)!important}
 button,a,.campaign-card,.form-panel,img{filter:none!important;scale:1!important;rotate:none!important;translate:none!important}
