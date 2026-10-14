@@ -117,6 +117,8 @@ function Dashboard() {
   const { t } = useI18n()
 
   const [campaigns, setCampaigns] = useState<Campaign[]>([]); const [tab, setTab] = useState('campaigns'); const [error, setError] = useState(''); const [loading, setLoading] = useState(true)
+  const [menuConfig, setMenuConfig] = useState<Record<string, boolean>>(() => JSON.parse(localStorage.getItem('mt-menu-config') || '{}'))
+  function toggleMenu(key: string) { const next = { ...menuConfig, [key]: menuConfig[key] === false }; setMenuConfig(next); localStorage.setItem('mt-menu-config', JSON.stringify(next)); window.dispatchEvent(new Event('storage')) }
   useEffect(() => {
     if (!supabase) return
     supabase.from('campaigns').select('*').order('created_at', { ascending: false }).then(({ data, error }) => { if (error) setError("Không thể tải chiến dịch."); else setCampaigns((data as CampaignRow[]).map(mapCampaign)); setLoading(false) })

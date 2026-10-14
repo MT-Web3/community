@@ -6,10 +6,12 @@ import { CampaignDetail } from './pages/CampaignDetail'
 import { StatusLookup } from './pages/StatusLookup'
 import { Admin } from './pages/Admin'
 import { Story } from './pages/Story'
+import { About } from './pages/About'
 
 export default function App() {
   return <Routes><Route element={<Layout />}>
     <Route index element={<Home />} />
+    <Route path="about" element={<About />} />
     <Route path="campaigns" element={<Campaigns />} />
     <Route path="campaigns/:slug" element={<CampaignDetail />} />
     <Route path="status" element={<StatusLookup />} />

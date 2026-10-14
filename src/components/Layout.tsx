@@ -12,6 +12,8 @@ export function Layout() {
 
   const [theme, setTheme] = useState(() => localStorage.getItem('mt-theme') || 'light')
   const [open, setOpen] = useState(false)
+  const [menuConfig, setMenuConfig] = useState<Record<string, boolean>>(() => JSON.parse(localStorage.getItem('mt-menu-config') || '{}'))
+  useEffect(() => { const sync = () => setMenuConfig(JSON.parse(localStorage.getItem('mt-menu-config') || '{}')); window.addEventListener('storage', sync); return () => window.removeEventListener('storage', sync) }, [])
   useEffect(()=>{setOpen(false)},[pathname])
   useEffect(() => { document.documentElement.dataset.theme = theme; localStorage.setItem('mt-theme', theme) }, [theme])
   const isHome = pathname === '/'
@@ -22,7 +24,8 @@ export function Layout() {
       <nav className={open ? 'nav open' : 'nav'} aria-label={t("Điều hướng chính")}>
         <NavLink to="/" end onClick={() => setOpen(false)}>{t("Trang chủ")}</NavLink>
         <NavLink to="/campaigns" onClick={() => setOpen(false)}>{t("Chiến dịch")}</NavLink>
-        <NavLink to="/story" onClick={() => setOpen(false)}>{language === 'vi' ? 'Câu chuyện' : 'Story'}</NavLink>
+        {menuConfig.about !== false && <NavLink to="/about" onClick={() => setOpen(false)}>{language === 'vi' ? 'Giới thiệu' : 'About'}</NavLink>}
+        {menuConfig.story !== false && <NavLink to="/story" onClick={() => setOpen(false)}>{language === 'vi' ? 'Câu chuyện' : 'Story'}</NavLink>}
       </nav>
       <div className="nav-actions">
         <div className="language-buttons" role="group" aria-label={t('Ngôn ngữ')}>{(['vi','en'] as const).map(item => <button key={item} aria-pressed={language === item} onClick={() => setLanguage(item)}>{item.toUpperCase()}</button>)}</div>
