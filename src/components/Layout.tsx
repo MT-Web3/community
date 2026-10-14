@@ -21,7 +21,6 @@ export function Layout() {
       <nav className={open ? 'nav open' : 'nav'} aria-label={t("Điều hướng chính")}>
         <NavLink to="/" end onClick={() => setOpen(false)}>{t("Trang chủ")}</NavLink>
         <NavLink to="/campaigns" onClick={() => setOpen(false)}>{t("Chiến dịch")}</NavLink>
-        <NavLink to="/status" onClick={() => setOpen(false)}>{t("Tra cứu")}</NavLink>
         <NavLink to="/story" onClick={() => setOpen(false)}>{language === 'vi' ? 'Câu chuyện' : 'Story'}</NavLink>
       </nav>
       <div className="nav-actions">
