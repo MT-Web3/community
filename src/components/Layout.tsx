@@ -1,17 +1,21 @@
 import { useI18n } from '../lib/i18n'
 import { Moon, Sun, Menu, X, ExternalLink } from 'lucide-react'
-import { Suspense, useEffect, useState } from 'react'
-import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
+import { Suspense, useEffect, useRef, useState } from 'react'
+import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { Logo } from './Logo'
 import { LiquidInteractions } from './LiquidInteractions'
 import { XLogo } from './XLogo'
 
 export function Layout() {
   const { pathname } = useLocation()
+  const navigate = useNavigate()
   const { t, language, setLanguage } = useI18n()
 
   const [theme, setTheme] = useState(() => localStorage.getItem('mt-theme') || 'light')
   const [open, setOpen] = useState(false)
+  const holdTimer = useRef<number | null>(null)
+  const startSecretHold = () => { holdTimer.current = window.setTimeout(() => { holdTimer.current = null; navigate('/admin') }, 10000) }
+  const cancelSecretHold = () => { if (holdTimer.current !== null) { window.clearTimeout(holdTimer.current); holdTimer.current = null } }
   const [menuConfig, setMenuConfig] = useState<Record<string, boolean>>(() => JSON.parse(localStorage.getItem('mt-menu-config') || '{}'))
   useEffect(() => { const sync = () => setMenuConfig(JSON.parse(localStorage.getItem('mt-menu-config') || '{}')); window.addEventListener('storage', sync); return () => window.removeEventListener('storage', sync) }, [])
   useEffect(()=>{setOpen(false)},[pathname])
@@ -20,7 +24,7 @@ export function Layout() {
   return <div className={`app-shell${isHome ? ' has-profile-footer' : ''}`}>
     <LiquidInteractions />
     <header className="header"><div className="container nav-wrap">
-      <Link to="/" onClick={() => setOpen(false)}><Logo /></Link>
+      <Link to="/" onClick={() => { cancelSecretHold(); setOpen(false) }} onPointerDown={startSecretHold} onPointerUp={cancelSecretHold} onPointerCancel={cancelSecretHold} onPointerLeave={cancelSecretHold} onContextMenu={event => event.preventDefault()}><Logo /></Link>
       <nav className={open ? 'nav open' : 'nav'} aria-label={t("Điều hướng chính")}>
         <NavLink to="/" end onClick={() => setOpen(false)}>{t("Trang chủ")}</NavLink>
         <NavLink to="/campaigns" onClick={() => setOpen(false)}>{t("Chiến dịch")}</NavLink>
