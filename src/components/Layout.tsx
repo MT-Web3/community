@@ -13,9 +13,10 @@ export function Layout() {
 
   const [theme, setTheme] = useState(() => localStorage.getItem('mt-theme') || 'light')
   const [open, setOpen] = useState(false)
+  const [holdingAvatar, setHoldingAvatar] = useState(false)
   const holdTimer = useRef<number | null>(null)
-  const startSecretHold = () => { holdTimer.current = window.setTimeout(() => { holdTimer.current = null; navigate('/admin') }, 5000) }
-  const cancelSecretHold = () => { if (holdTimer.current !== null) { window.clearTimeout(holdTimer.current); holdTimer.current = null } }
+  const startSecretHold = () => { setHoldingAvatar(true); holdTimer.current = window.setTimeout(() => { holdTimer.current = null; setHoldingAvatar(false); window.location.assign('/community/admin') }, 5000) }
+  const cancelSecretHold = () => { if (holdTimer.current !== null) { window.clearTimeout(holdTimer.current); holdTimer.current = null } setHoldingAvatar(false) }
   const [menuConfig, setMenuConfig] = useState<Record<string, boolean>>(() => JSON.parse(localStorage.getItem('mt-menu-config') || '{}'))
   useEffect(() => { const sync = () => setMenuConfig(JSON.parse(localStorage.getItem('mt-menu-config') || '{}')); window.addEventListener('storage', sync); return () => window.removeEventListener('storage', sync) }, [])
   useEffect(()=>{setOpen(false)},[pathname])
@@ -24,7 +25,7 @@ export function Layout() {
   return <div className={`app-shell${isHome ? ' has-profile-footer' : ''}`}>
     <LiquidInteractions />
     <header className="header"><div className="container nav-wrap">
-      <Link to="/" onClick={() => { cancelSecretHold(); setOpen(false) }} onPointerDown={startSecretHold} onPointerUp={cancelSecretHold} onPointerCancel={cancelSecretHold} onPointerLeave={cancelSecretHold} onContextMenu={event => event.preventDefault()}><Logo /></Link>
+      <Link className={holdingAvatar ? 'secret-hold-active' : ''} to="/" onClick={() => { cancelSecretHold(); setOpen(false) }} onPointerDown={startSecretHold} onPointerUp={cancelSecretHold} onPointerCancel={cancelSecretHold} onPointerLeave={cancelSecretHold} onContextMenu={event => event.preventDefault()}><Logo /></Link>
       <nav className={open ? 'nav open' : 'nav'} aria-label={t("Điều hướng chính")}>
         <NavLink to="/" end onClick={() => setOpen(false)}>{t("Trang chủ")}</NavLink>
         <NavLink to="/campaigns" onClick={() => setOpen(false)}>{t("Chiến dịch")}</NavLink>
