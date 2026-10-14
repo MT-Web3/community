@@ -37,7 +37,7 @@ export async function submitApplication(payload: Record<string, unknown>) {
 
 export type ApplicationResult = { id: string; status: string; campaign: string; updatedAt: string }
 
-export async function lookupApplication(handle: string, language: 'vi' | 'en' = 'vi'): Promise<ApplicationResult[]> {
+export async function lookupApplication(handle: string, language: 'vi' | 'en' = 'en'): Promise<ApplicationResult[]> {
   if (!supabase) throw new Error('Hệ thống tra cứu chưa được cấu hình.')
   const result = await invokeFunction<{ applications: ApplicationResult[] }>('application-status', { handle: normalizeUsername(handle), language })
   return result.applications

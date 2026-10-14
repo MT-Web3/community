@@ -6,6 +6,7 @@ import {Layout} from './Layout'
 vi.mock('./LiquidInteractions',()=>({LiquidInteractions:()=>null}))
 afterEach(()=>{cleanup();localStorage.clear()})
 it('shows the story directly in the main navigation',()=>{
+  localStorage.setItem('mt-language','vi')
   render(<I18nProvider><MemoryRouter><Routes><Route element={<Layout/>}><Route path="*" element={<p>Page</p>}/></Route></Routes></MemoryRouter></I18nProvider>)
   expect(screen.queryByRole('button',{name:'Góc nhỏ của TΛM'})).toBeNull()
   const story=screen.getByRole('link',{name:'Câu chuyện'})

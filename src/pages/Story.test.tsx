@@ -5,6 +5,7 @@ import { Story } from './Story'
 
 afterEach(() => { cleanup(); localStorage.clear() })
 it('lets readers jump chapters and reveal a joke with one tap', () => {
+  localStorage.setItem('mt-language','vi')
   render(<I18nProvider><Story/></I18nProvider>)
   expect(screen.getByText('Một câu chuyện hư cấu • TΛMVERSE')).toBeTruthy()
   expect(screen.getAllByRole('button',{name:/^Chương \d+$/})).toHaveLength(4)

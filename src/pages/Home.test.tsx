@@ -7,6 +7,7 @@ vi.mock('../lib/supabase',()=>({getPublicCampaigns:()=>Promise.resolve([])}))
 vi.mock('../components/MotionStage',()=>({MotionStage:()=>null}))
 afterEach(()=>{vi.useRealTimers();cleanup();vi.unstubAllGlobals();localStorage.clear()})
 it('renders Kết nối as a complete normalized Vietnamese word',async()=>{
+  localStorage.setItem('mt-language','vi')
   vi.useFakeTimers({toFake:['setInterval','clearInterval']});vi.stubGlobal('matchMedia',()=>({matches:false}))
   const {container}=render(<I18nProvider><MemoryRouter><Home/></MemoryRouter></I18nProvider>)
   await act(async()=>{await Promise.resolve();vi.advanceTimersByTime(3400)})

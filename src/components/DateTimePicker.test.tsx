@@ -6,6 +6,7 @@ import { DateTimePicker } from './DateTimePicker'
 afterEach(() => { cleanup(); localStorage.clear() })
 describe('calendar control', () => {
   it('selects a date and time without typing date segments', () => {
+    localStorage.setItem('mt-language','vi')
     const onChange = vi.fn()
     render(<I18nProvider><DateTimePicker label="Bắt đầu" value="2026-10-14T10:00" required onChange={onChange}/></I18nProvider>)
     fireEvent.click(screen.getByRole('button', { name:'Bắt đầu' }))
