@@ -11,6 +11,26 @@ export const supabase = isBackendConfigured ? createClient(url, key, {
   auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false, flowType: 'pkce' },
 }) : null
 
+export type SiteMenuConfig = Record<'campaigns' | 'about' | 'story' | 'admin', boolean>
+export const defaultSiteMenuConfig: SiteMenuConfig = { campaigns: true, about: true, story: true, admin: false }
+
+export async function getSiteMenuConfig(): Promise<SiteMenuConfig> {
+  if (!supabase) {
+    try { return { ...defaultSiteMenuConfig, ...(JSON.parse(localStorage.getItem('mt-menu-config') || '{}') as Partial<SiteMenuConfig>) } } catch { return defaultSiteMenuConfig }
+  }
+  const { data, error } = await supabase.from('site_settings').select('value').eq('key', 'menu_visibility').maybeSingle()
+  if (error || !data?.value) {
+    try { return { ...defaultSiteMenuConfig, ...(JSON.parse(localStorage.getItem('mt-menu-config') || '{}') as Partial<SiteMenuConfig>) } } catch { return defaultSiteMenuConfig }
+  }
+  return { ...defaultSiteMenuConfig, ...(data.value as Partial<SiteMenuConfig>) }
+}
+
+export async function saveSiteMenuConfig(value: SiteMenuConfig): Promise<void> {
+  if (!supabase) return
+  const { error } = await supabase.from('site_settings').upsert({ key: 'menu_visibility', value, updated_at: new Date().toISOString() })
+  if (error) throw error
+}
+
 async function invokeFunction<T>(name: string, body: Record<string, unknown>): Promise<T> {
   if (!url || !key) throw new Error('Hệ thống chưa được cấu hình.')
   const functionsUrl = import.meta.env.VITE_FUNCTIONS_URL || `${url}/functions/v1`

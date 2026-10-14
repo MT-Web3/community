@@ -6,6 +6,7 @@ import { Logo } from './Logo'
 import { LiquidInteractions } from './LiquidInteractions'
 import { XLogo } from './XLogo'
 import { NotFound } from '../pages/NotFound'
+import { defaultSiteMenuConfig, getSiteMenuConfig, saveSiteMenuConfig, type SiteMenuConfig } from '../lib/supabase'
 
 export function Layout() {
   const { pathname } = useLocation()
@@ -18,14 +19,15 @@ export function Layout() {
   const holdTimer = useRef<number | null>(null); const feedbackTimer = useRef<number | null>(null)
   const adminDragStart = useRef<number | null>(null)
   const adminDragHandled = useRef(false)
-  const startSecretHold = () => { setHoldingAvatar(false); feedbackTimer.current = window.setTimeout(() => setHoldingAvatar(true), 2000); holdTimer.current = window.setTimeout(() => { holdTimer.current = null; setHoldingAvatar(false); const next = { ...menuConfig, admin: true }; localStorage.setItem('mt-menu-config', JSON.stringify(next)); setMenuConfig(next) }, 3000) }
+  const startSecretHold = () => { setHoldingAvatar(false); feedbackTimer.current = window.setTimeout(() => setHoldingAvatar(true), 2000); holdTimer.current = window.setTimeout(() => { holdTimer.current = null; setHoldingAvatar(false); const next = { ...menuConfig, admin: true } as SiteMenuConfig; localStorage.setItem('mt-menu-config', JSON.stringify(next)); setMenuConfig(next); void saveSiteMenuConfig(next) }, 3000) }
   const cancelSecretHold = () => { if (holdTimer.current !== null) window.clearTimeout(holdTimer.current); if (feedbackTimer.current !== null) window.clearTimeout(feedbackTimer.current); holdTimer.current = null; feedbackTimer.current = null; setHoldingAvatar(false) }
-  const [menuConfig, setMenuConfig] = useState<Record<string, boolean>>(() => JSON.parse(localStorage.getItem('mt-menu-config') || '{}'))
-  const hideAdminTab = () => { const next = { ...menuConfig, admin: false }; localStorage.setItem('mt-menu-config', JSON.stringify(next)); setMenuConfig(next); window.dispatchEvent(new Event('storage')); if (pathname.startsWith('/admin')) navigate('/') }
+  const [menuConfig, setMenuConfig] = useState<SiteMenuConfig>(() => ({ ...defaultSiteMenuConfig, ...JSON.parse(localStorage.getItem('mt-menu-config') || '{}') }))
+  const hideAdminTab = () => { const next = { ...menuConfig, admin: false }; localStorage.setItem('mt-menu-config', JSON.stringify(next)); setMenuConfig(next); void saveSiteMenuConfig(next); window.dispatchEvent(new Event('storage')); if (pathname.startsWith('/admin')) navigate('/') }
   const startAdminDrag = (event: ReactPointerEvent) => { adminDragStart.current = event.clientY; adminDragHandled.current = false; event.currentTarget.setPointerCapture?.(event.pointerId) }
   const moveAdminDrag = (event: ReactPointerEvent) => { if (adminDragStart.current === null || adminDragHandled.current) return; if (Math.abs(event.clientY - adminDragStart.current) >= 28) { adminDragHandled.current = true; hideAdminTab() } }
   const endAdminDrag = () => { adminDragStart.current = null; if (adminDragHandled.current) window.setTimeout(() => { adminDragHandled.current = false }, 0) }
   useEffect(() => { const sync = () => setMenuConfig(JSON.parse(localStorage.getItem('mt-menu-config') || '{}')); window.addEventListener('storage', sync); return () => window.removeEventListener('storage', sync) }, [])
+  useEffect(() => { void getSiteMenuConfig().then(config => { localStorage.setItem('mt-menu-config', JSON.stringify(config)); setMenuConfig(config) }) }, [])
   useEffect(()=>{setOpen(false)},[pathname])
   useEffect(() => { document.documentElement.dataset.theme = theme; localStorage.setItem('mt-theme', theme) }, [theme])
   const isHome = pathname === '/'

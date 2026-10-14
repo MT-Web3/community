@@ -8,7 +8,7 @@ import { CampaignCard } from '../components/CampaignCard'
 import { DateTimePicker } from '../components/DateTimePicker'
 import { campaignPayload, campaignTypes, toLocalDateTime, type CampaignForm } from '../lib/campaign-form'
 import { downloadCsv } from '../lib/csv'
-import { isBackendConfigured, mapCampaign, supabase, type CampaignRow } from '../lib/supabase'
+import { defaultSiteMenuConfig, isBackendConfigured, mapCampaign, saveSiteMenuConfig, supabase, type CampaignRow, type SiteMenuConfig } from '../lib/supabase'
 import type { Campaign, CampaignType } from '../types'
 
 function LoginForm() {
@@ -128,12 +128,13 @@ function Dashboard() {
 
 function MenuVisibilitySettings() {
   const { t } = useI18n()
-  const [config, setConfig] = useState<Record<string, boolean>>(() => JSON.parse(localStorage.getItem('mt-menu-config') || '{}'))
+  const [config, setConfig] = useState<SiteMenuConfig>(() => ({ ...defaultSiteMenuConfig, ...JSON.parse(localStorage.getItem('mt-menu-config') || '{}') }))
   const [open, setOpen] = useState(false)
-  function toggle(key: string) { const next = { ...config, [key]: config[key] === false }; setConfig(next); localStorage.setItem('mt-menu-config', JSON.stringify(next)); window.dispatchEvent(new Event('storage')) }
-  function setOnlyHome() { const next = { ...config, campaigns: false, about: false, story: false, admin: false }; setConfig(next); localStorage.setItem('mt-menu-config', JSON.stringify(next)); window.dispatchEvent(new Event('storage')); setOpen(false) }
-  function showAll() { const next = { ...config, campaigns: true, about: true, story: true, admin: true }; setConfig(next); localStorage.setItem('mt-menu-config', JSON.stringify(next)); window.dispatchEvent(new Event('storage')) }
-  const items = [{ key: 'campaigns', label: t('Campaigns') }, { key: 'about', label: t('About') }, { key: 'story', label: t('Story') }, { key: 'admin', label: t('Admin') }]
+  function persist(next: SiteMenuConfig) { setConfig(next); localStorage.setItem('mt-menu-config', JSON.stringify(next)); window.dispatchEvent(new Event('storage')); void saveSiteMenuConfig(next) }
+  function toggle(key: keyof SiteMenuConfig) { persist({ ...config, [key]: config[key] === false }) }
+  function setOnlyHome() { persist({ ...config, campaigns: false, about: false, story: false, admin: false }); setOpen(false) }
+  function showAll() { persist({ ...config, campaigns: true, about: true, story: true, admin: true }) }
+  const items: { key: keyof SiteMenuConfig; label: string }[] = [{ key: 'campaigns', label: t('Campaigns') }, { key: 'about', label: t('About') }, { key: 'story', label: t('Story') }, { key: 'admin', label: t('Admin') }]
   return <section className="menu-settings" aria-label={t('Cài đặt hiển thị menu')}><button className="button secondary menu-settings-trigger" onClick={() => setOpen(true)}><Settings size={17}/>{t('Cài đặt hiển thị')}</button>{open && <div className="menu-settings-backdrop" role="presentation" onClick={() => setOpen(false)}><div className="menu-settings-modal" role="dialog" aria-modal="true" aria-labelledby="menu-settings-title" onClick={event => event.stopPropagation()}><div className="menu-settings-modal-head"><div><p className="kicker">MT-WEB3 · ADMIN</p><h2 id="menu-settings-title">{t('Cài đặt hiển thị')}</h2></div><button className="icon-button" onClick={() => setOpen(false)} aria-label={t('Đóng')}><X size={18}/></button></div><p className="menu-settings-description">{t('Chọn các tab xuất hiện trên thanh menu. Bạn có thể ẩn toàn bộ và chỉ giữ lại Trang chủ.')}</p><div className="menu-settings-options">{items.map(item => <button key={item.key} className={`menu-visibility-option ${config[item.key] === false ? 'is-hidden' : ''}`} onClick={() => toggle(item.key)}><span><strong>{item.label}</strong><small>{config[item.key] === false ? t('Đang ẩn') : t('Đang hiện')}</small></span><span className="menu-visibility-switch" aria-hidden="true"/></button>)}</div><div className="menu-settings-actions"><button className="button secondary" onClick={showAll}>{t('Hiện tất cả')}</button><button className="button primary" onClick={setOnlyHome}>{t('Chỉ hiện Home')}</button></div></div></div>}</section>
 }
 
