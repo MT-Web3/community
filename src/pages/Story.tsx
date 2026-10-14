@@ -11,10 +11,10 @@ const chapters = [
 
 export function Story() {
   const { language } = useI18n()
-  const [chapter, setChapter] = useState(0), [surprise, setSurprise] = useState(false)
+  const [chapter, setChapter] = useState(0), [surprise, setSurprise] = useState(false), [direction, setDirection] = useState<'next' | 'prev'>('next')
   const touchStart = useRef<number | null>(null)
   const content = chapters[chapter][language]
-  function go(next: number) { setChapter(next); setSurprise(false) }
+  function go(next: number) { setDirection(next >= chapter ? 'next' : 'prev'); setChapter(next); setSurprise(false) }
   useEffect(() => {
     let locked = false
     const onWheel = (event: WheelEvent) => {
@@ -42,7 +42,7 @@ export function Story() {
   }, [chapter])
   return <section className={`story-page container story-chapter-${chapter}`}>
     <div className="story-top"><span className="story-fiction">{language === 'vi' ? 'Một câu chuyện hư cấu • TΛMVERSE' : 'A fictional story • TΛMVERSE'}</span><div className="story-tabs" aria-label={language === 'vi' ? 'Chọn chương' : 'Choose chapter'}>{chapters.map((_, index) => <button key={index} aria-label={`${language === 'vi' ? 'Chương' : 'Chapter'} ${index + 1}`} aria-pressed={chapter === index} onClick={() => go(index)}>{String(index + 1).padStart(2, '0')}</button>)}</div></div>
-    <div className="story-scene" key={chapter}><div className="story-copy"><p className="kicker">{content[0]}</p><h1>{content[1]}</h1><p className="story-prose">{content[2]}</p><button className="button primary" onClick={() => setSurprise(!surprise)} aria-pressed={surprise}>{content[3]} ✦</button><p className="story-punchline" role="status">{surprise ? content[4] : '\u00a0'}</p></div><div className={`story-art ${surprise ? 'story-party' : ''}`}><div className="story-orbit"/><span className="story-floating-block">{chapter === 1 ? 'HA!' : chapter === 2 ? '@' : chapter === 3 ? 'GM' : '◈'}</span><img src={`${import.meta.env.BASE_URL}assets/community-mascot.png`} alt="TΛM"/><span className="story-sticker">{chapter === 3 ? 'GOOD\nMORNING' : 'STAY\nCURIOUS'}</span></div></div>
+    <div className={`story-scene story-slide-${direction}`} key={chapter}><div className="story-copy"><p className="kicker">{content[0]}</p><h1>{content[1]}</h1><p className="story-prose">{content[2]}</p><button className="button primary" onClick={() => setSurprise(!surprise)} aria-pressed={surprise}>{content[3]} ✦</button><p className="story-punchline" role="status">{surprise ? content[4] : '\u00a0'}</p></div><div className={`story-art ${surprise ? 'story-party' : ''}`}><div className="story-orbit"/><span className="story-floating-block">{chapter === 1 ? 'HA!' : chapter === 2 ? '@' : chapter === 3 ? 'GM' : '◈'}</span><img src={`${import.meta.env.BASE_URL}assets/community-mascot.png`} alt="TΛM"/><span className="story-sticker">{chapter === 3 ? 'GOOD\nMORNING' : 'STAY\nCURIOUS'}</span></div></div>
     <div className="story-bottom"><span>{language === 'vi' ? 'Không phải tiểu sử. Chỉ là trí tưởng tượng có hoodie.' : 'An imagination wearing a hoodie. Not a biography.'}</span><div><button className="icon-button" disabled={chapter === 0} aria-label={language === 'vi' ? 'Chương trước' : 'Previous chapter'} onClick={() => go(chapter - 1)}><ArrowLeft/></button><button className="button" onClick={() => go(chapter === chapters.length - 1 ? 0 : chapter + 1)}>{chapter === chapters.length - 1 ? <RotateCcw/> : <ArrowRight/>}{language === 'vi' ? chapter === 3 ? 'Đọc lại' : 'Chương tiếp' : chapter === 3 ? 'Read again' : 'Next chapter'}</button></div></div>
   </section>
 }

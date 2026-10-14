@@ -7,7 +7,8 @@ const key = import.meta.env.VITE_SUPABASE_ANON_KEY
 
 export const isBackendConfigured = Boolean(url && key)
 export const supabase = isBackendConfigured ? createClient(url, key, {
-  auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, flowType: 'pkce' },
+  // Handle the PKCE callback explicitly in Admin so GitHub redirects cannot race the first session check.
+  auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false, flowType: 'pkce' },
 }) : null
 
 async function invokeFunction<T>(name: string, body: Record<string, unknown>): Promise<T> {

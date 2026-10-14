@@ -137,12 +137,16 @@ export function Admin() {
       try {
         const params = new URLSearchParams(window.location.search)
         if (params.get('error_description')) setMessage(params.get('error_description')!)
-        // The Supabase client handles the PKCE callback; avoid exchanging the same code twice.
+        const code = params.get('code')
+        if (code) {
+          const { error: exchangeError } = await client.auth.exchangeCodeForSession(code)
+          if (exchangeError) setMessage('GitHub chưa hoàn tất đăng nhập: ' + exchangeError.message)
+          window.history.replaceState({}, document.title, window.location.pathname)
+        }
         const { data, error } = await client.auth.getSession()
         if (!active) return
         if (error) setMessage(error.message)
         setSession(data.session)
-        if (data.session && params.has('code')) window.history.replaceState({}, document.title, window.location.pathname)
       } finally { if (active) setChecking(false) }
     }
     void finish()
