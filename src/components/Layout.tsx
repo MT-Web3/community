@@ -1,6 +1,6 @@
 import { useI18n } from '../lib/i18n'
 import { Moon, Sun, Menu, X, ExternalLink } from 'lucide-react'
-import { Suspense, useEffect, useRef, useState } from 'react'
+import { Suspense, useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react'
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { Logo } from './Logo'
 import { LiquidInteractions } from './LiquidInteractions'
@@ -15,9 +15,15 @@ export function Layout() {
   const [open, setOpen] = useState(false)
   const [holdingAvatar, setHoldingAvatar] = useState(false)
   const holdTimer = useRef<number | null>(null); const feedbackTimer = useRef<number | null>(null)
+  const adminDragStart = useRef<number | null>(null)
+  const adminDragHandled = useRef(false)
   const startSecretHold = () => { setHoldingAvatar(false); feedbackTimer.current = window.setTimeout(() => setHoldingAvatar(true), 2000); holdTimer.current = window.setTimeout(() => { holdTimer.current = null; setHoldingAvatar(false); const next = { ...menuConfig, admin: true }; localStorage.setItem('mt-menu-config', JSON.stringify(next)); setMenuConfig(next) }, 3000) }
   const cancelSecretHold = () => { if (holdTimer.current !== null) window.clearTimeout(holdTimer.current); if (feedbackTimer.current !== null) window.clearTimeout(feedbackTimer.current); holdTimer.current = null; feedbackTimer.current = null; setHoldingAvatar(false) }
   const [menuConfig, setMenuConfig] = useState<Record<string, boolean>>(() => JSON.parse(localStorage.getItem('mt-menu-config') || '{}'))
+  const hideAdminTab = () => { const next = { ...menuConfig, admin: false }; localStorage.setItem('mt-menu-config', JSON.stringify(next)); setMenuConfig(next); window.dispatchEvent(new Event('storage')); if (pathname.startsWith('/admin')) navigate('/') }
+  const startAdminDrag = (event: ReactPointerEvent) => { adminDragStart.current = event.clientY; adminDragHandled.current = false; event.currentTarget.setPointerCapture?.(event.pointerId) }
+  const moveAdminDrag = (event: ReactPointerEvent) => { if (adminDragStart.current === null || adminDragHandled.current) return; if (Math.abs(event.clientY - adminDragStart.current) >= 28) { adminDragHandled.current = true; hideAdminTab() } }
+  const endAdminDrag = () => { adminDragStart.current = null; if (adminDragHandled.current) window.setTimeout(() => { adminDragHandled.current = false }, 0) }
   useEffect(() => { const sync = () => setMenuConfig(JSON.parse(localStorage.getItem('mt-menu-config') || '{}')); window.addEventListener('storage', sync); return () => window.removeEventListener('storage', sync) }, [])
   useEffect(()=>{setOpen(false)},[pathname])
   useEffect(() => { document.documentElement.dataset.theme = theme; localStorage.setItem('mt-theme', theme) }, [theme])
@@ -28,10 +34,10 @@ export function Layout() {
       <Link className={holdingAvatar ? 'secret-hold-active' : ''} to="/" onClick={() => { cancelSecretHold(); setOpen(false) }} onPointerDown={startSecretHold} onPointerUp={cancelSecretHold} onPointerCancel={cancelSecretHold} onPointerLeave={cancelSecretHold} onContextMenu={event => event.preventDefault()}><Logo /></Link>
       <nav className={open ? 'nav open' : 'nav'} aria-label={t("Điều hướng chính")}>
         <NavLink to="/" end onClick={() => setOpen(false)}>{t("Trang chủ")}</NavLink>
-        <NavLink to="/campaigns" onClick={() => setOpen(false)}>{t("Chiến dịch")}</NavLink>
+        {menuConfig.campaigns !== false && <NavLink to="/campaigns" onClick={() => setOpen(false)}>{t("Chiến dịch")}</NavLink>}
         {menuConfig.about !== false && <NavLink to="/about" onClick={() => setOpen(false)}>{language === 'vi' ? 'Giới thiệu' : 'About'}</NavLink>}
         {menuConfig.story !== false && <NavLink to="/story" onClick={() => setOpen(false)}>{language === 'vi' ? 'Câu chuyện' : 'Story'}</NavLink>}
-        {(menuConfig.admin === true || pathname.startsWith('/admin')) && <NavLink to="/admin" onClick={() => setOpen(false)}>Admin</NavLink>}
+        {(menuConfig.admin === true || pathname.startsWith('/admin')) && <NavLink to="/admin" onClick={event => { if (adminDragHandled.current) { event.preventDefault(); return } setOpen(false) }} onPointerDown={startAdminDrag} onPointerMove={moveAdminDrag} onPointerUp={endAdminDrag} onPointerCancel={endAdminDrag} title={t("Kéo tab Admin lên hoặc xuống để ẩn")}>Admin</NavLink>}
       </nav>
       <div className="nav-actions">
         <button className="icon-button" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} aria-label={t("Đổi giao diện")}>{theme === 'dark' ? <Sun /> : <Moon />}</button>
