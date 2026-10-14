@@ -22,7 +22,7 @@ export function Story() {
       event.preventDefault()
       locked = true
       go(Math.max(0, Math.min(chapters.length - 1, chapter + (event.deltaY > 0 ? 1 : -1))))
-      window.setTimeout(() => { locked = false }, 650)
+      window.setTimeout(() => { locked = false }, 980)
     }
     const onTouchStart = (event: TouchEvent) => { touchStart.current = event.touches[0]?.clientY ?? null }
     const onTouchEnd = (event: TouchEvent) => {
@@ -32,7 +32,7 @@ export function Story() {
       if (Math.abs(distance) > 45 && !locked) {
         locked = true
         go(Math.max(0, Math.min(chapters.length - 1, chapter + (distance > 0 ? 1 : -1))))
-        window.setTimeout(() => { locked = false }, 650)
+        window.setTimeout(() => { locked = false }, 980)
       }
     }
     window.addEventListener('wheel', onWheel, { passive: false })
