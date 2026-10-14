@@ -15,7 +15,7 @@ export function Layout() {
   const [open, setOpen] = useState(false)
   const [holdingAvatar, setHoldingAvatar] = useState(false)
   const holdTimer = useRef<number | null>(null)
-  const startSecretHold = () => { setHoldingAvatar(true); holdTimer.current = window.setTimeout(() => { holdTimer.current = null; setHoldingAvatar(false); window.location.assign('/community/admin') }, 5000) }
+  const startSecretHold = () => { setHoldingAvatar(true); holdTimer.current = window.setTimeout(() => { holdTimer.current = null; setHoldingAvatar(false); const next = { ...menuConfig, admin: true }; localStorage.setItem('mt-menu-config', JSON.stringify(next)); setMenuConfig(next) }, 5000) }
   const cancelSecretHold = () => { if (holdTimer.current !== null) { window.clearTimeout(holdTimer.current); holdTimer.current = null } setHoldingAvatar(false) }
   const [menuConfig, setMenuConfig] = useState<Record<string, boolean>>(() => JSON.parse(localStorage.getItem('mt-menu-config') || '{}'))
   useEffect(() => { const sync = () => setMenuConfig(JSON.parse(localStorage.getItem('mt-menu-config') || '{}')); window.addEventListener('storage', sync); return () => window.removeEventListener('storage', sync) }, [])
@@ -31,9 +31,9 @@ export function Layout() {
         <NavLink to="/campaigns" onClick={() => setOpen(false)}>{t("Chiến dịch")}</NavLink>
         {menuConfig.about !== false && <NavLink to="/about" onClick={() => setOpen(false)}>{language === 'vi' ? 'Giới thiệu' : 'About'}</NavLink>}
         {menuConfig.story !== false && <NavLink to="/story" onClick={() => setOpen(false)}>{language === 'vi' ? 'Câu chuyện' : 'Story'}</NavLink>}
+        {menuConfig.admin === true && <NavLink to="/admin" onClick={() => setOpen(false)}>Admin</NavLink>}
       </nav>
       <div className="nav-actions">
-        <div className="language-buttons" role="group" aria-label={t('Ngôn ngữ')}>{(['vi','en'] as const).map(item => <button key={item} aria-pressed={language === item} onClick={() => setLanguage(item)}>{item.toUpperCase()}</button>)}</div>
         <button className="icon-button" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} aria-label={t("Đổi giao diện")}>{theme === 'dark' ? <Sun /> : <Moon />}</button>
         <button className="icon-button menu-button" onClick={() => setOpen(!open)} aria-label={t("Mở menu")}>{open ? <X /> : <Menu />}</button>
       </div>

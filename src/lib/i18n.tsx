@@ -19,7 +19,7 @@ export function localizeCampaign(campaign: Campaign, language: Language): Campai
 }
 const Context = createContext({ language: 'en' as Language, locale: 'en-GB', setLanguage: (_language: Language) => {}, t: (text: string) => text })
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguage] = useState<Language>(() => localStorage.getItem('mt-language') === 'vi' ? 'vi' : 'en')
+  const [language, setLanguage] = useState<Language>('en')
   useEffect(() => { localStorage.setItem('mt-language', language); document.documentElement.lang = language }, [language])
   const context = useMemo(() => ({ language, locale: language === 'vi' ? 'vi-VN' : 'en-GB', setLanguage, t: (text: string) => translate(text, language) }), [language])
   return <Context.Provider value={context}>{children}</Context.Provider>
