@@ -72,4 +72,8 @@ h1,h2,h3,.page-title,.story-copy h1,.monday-editorial h1{font-family:var(--frien
 .dev-sign{margin:.65rem 0 .15rem!important;color:var(--muted);font-size:11px!important;letter-spacing:.04em}
 @media(max-width:900px){.card-grid{grid-template-columns:minmax(0,1fr)!important}.detail-grid,.admin-detail-grid{min-width:0}.footer-owner>a{max-width:100%;flex-wrap:wrap}}
 @media(max-width:650px){.fungo-card .campaign-art{height:136px!important;grid-template-columns:64px minmax(0,1fr);padding:14px 16px!important;column-gap:14px}.fungo-card .fungo-logo{width:64px;height:64px}.fungo-card .fungo-name{font-size:24px}.campaign-body{padding:20px!important}.eyebrow-row{align-items:flex-start;flex-wrap:wrap}.card-links{gap:10px}.card-links a{font-size:12px}.footer-owner>a{justify-content:flex-start;line-height:1.5}}
+
+/* Spacing rhythm: keep repeated surfaces calm and predictable at every width. */
+.section-head,.admin-head,.admin-toolbar{gap:24px}.section-head>*,.admin-head>*,.admin-toolbar>*{min-width:0}.section-head .text-link{flex:none}.campaign-card .campaign-body{display:flex;flex-direction:column;gap:0}.campaign-card .campaign-meta{margin:18px 0}.campaign-card .card-links{margin-top:auto;padding-top:4px;gap:12px 18px}.x-link-label{overflow-wrap:anywhere}.footer-owner>a{max-width:100%;gap:8px}.footer-owner>a .x-icon{margin-right:2px}
+@media(max-width:900px){.section-head,.admin-head,.admin-toolbar{gap:16px}.section-head .text-link{align-self:flex-start}.campaign-card .card-links{margin-top:4px}}
 .search input:not([type=checkbox]):not([type=range]){background:transparent!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}

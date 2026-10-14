@@ -19,7 +19,7 @@ export function CampaignCard({ campaign, admin = false }: { campaign: Campaign; 
     <div className="campaign-body"><div className="eyebrow-row"><span className={`status ${campaign.status}`}>{t(labels[campaign.status])}</span><span>{t(campaign.type)}</span></div>
       <h3>{campaign.name}</h3><p>{campaign.description}</p>
       <div className="campaign-meta"><CalendarDays size={16}/><span>{campaign.startsAt ? new Date(campaign.startsAt).toLocaleDateString(locale) : t("Chưa ấn định")}</span></div>
-      <div className="card-links"><Link className="text-link" to={admin ? `/admin/campaigns/${campaign.slug}` : `/campaigns/${campaign.slug}`}>{admin ? t("Chỉnh sửa") : t("Xem chi tiết")} <ArrowUpRight size={17}/></Link>{isFungo&&<a className="text-link muted-link x-link" href="https://x.com/FungoLabs" target="_blank" rel="noreferrer" aria-label={t("X của FungoLabs")}><span className="x-icon">X</span> @FungoLabs <ArrowUpRight size={15}/></a>}</div>
+      <div className="card-links"><Link className="text-link" to={admin ? `/admin/campaigns/${campaign.slug}` : `/campaigns/${campaign.slug}`}>{admin ? t("Chỉnh sửa") : t("Xem chi tiết")} <ArrowUpRight size={17}/></Link>{isFungo&&<a className="text-link muted-link x-link" href="https://x.com/FungoLabs" target="_blank" rel="noreferrer" aria-label={t("X của FungoLabs")} title="X · FungoLabs"><span className="x-icon" aria-hidden="true">𝕏</span><span className="x-link-label">FungoLabs</span><ArrowUpRight size={15}/></a>}</div>
     </div>
   </article>
 }
