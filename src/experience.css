@@ -46,12 +46,14 @@ body { background: var(--bg); }
 .hero-text-link svg { transition: transform .25s; }
 .hero-text-link:hover svg { transform: translate(4px,-4px); }
 .monday-builder { display: inline-flex; align-items: center; gap: 8px; margin-top: 24px; color: var(--muted); font: 10px ui-monospace,monospace; letter-spacing: .055em; }
-.x-profile-card{display:flex;align-items:center;gap:10px;width:min(100%,360px);margin-top:18px;padding:10px 12px;border:1px solid var(--line);border-radius:14px;background:color-mix(in srgb,var(--surface) 88%,transparent);color:var(--ink);text-decoration:none;transition:transform .2s ease,border-color .2s ease,background .2s ease;min-width:0}
+.x-profile-card{position:relative;display:flex;align-items:flex-start;gap:12px;width:min(100%,390px);margin-top:64px;padding:38px 14px 12px;border:1px solid var(--line);border-radius:16px;background:color-mix(in srgb,var(--surface) 92%,transparent);color:var(--ink);text-decoration:none;transition:transform .2s ease,border-color .2s ease,background .2s ease;min-width:0;overflow:visible}
 .x-profile-card:hover{transform:translateY(-2px);border-color:var(--accent);background:var(--surface-2)}
-.x-profile-card>img{width:42px;height:42px;flex:0 0 42px;border-radius:50%;object-fit:cover}
-.x-profile-card-body{display:grid;gap:2px;min-width:0;line-height:1.2}
+.x-profile-card-avatar{position:absolute;z-index:1;top:-54px;left:14px;width:108px;height:108px;object-fit:contain;filter:drop-shadow(0 12px 12px rgba(0,0,0,.38));transition:transform .25s ease;pointer-events:none}
+.x-profile-card:hover .x-profile-card-avatar{transform:translateY(-3px) rotate(-2deg)}
+.x-profile-card-body{display:grid;gap:3px;min-width:0;line-height:1.2}
 .x-profile-card-name{font-size:14px;font-weight:800;color:var(--ink)}
 .x-profile-card-handle,.x-profile-card-bio{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.x-profile-card-meta{display:flex;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:10px;margin-top:5px}.x-profile-card-meta b{color:var(--ink);font-weight:800}
 .x-profile-card-action{display:flex;align-items:center;gap:7px;margin-left:auto;color:var(--muted);flex:0 0 auto}
 .x-profile-card-action .x-logo{color:var(--ink)}
 .motion-stage { position: relative; min-height: 0; min-width: 0; isolation: isolate; display: grid; place-items: center; perspective: 1000px; overflow: visible; }
@@ -136,7 +138,8 @@ body { background: var(--bg); }
   .monday-editorial .hero-copy { font-size: 14px; margin: 12px 0 18px; }
   .monday-editorial .kicker { margin-bottom: 14px; }
   .monday-builder { margin-top: 16px; }
-  .x-profile-card{width:100%;max-width:360px}
+  .x-profile-card{width:100%;max-width:390px}
+  .x-profile-card-avatar{left:12px;width:96px;height:96px;top:-48px}
   .stage-sticker { width: 84px; height: 84px; font-size: 18px; }
 }
 @media(max-width:1100px) {
