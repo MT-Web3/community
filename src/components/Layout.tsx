@@ -4,6 +4,7 @@ import { Suspense, useEffect, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { Logo } from './Logo'
 import { LiquidInteractions } from './LiquidInteractions'
+import { XLogo } from './XLogo'
 
 export function Layout() {
   const { pathname } = useLocation()
@@ -30,6 +31,6 @@ export function Layout() {
       </div>
     </div></header>
     <main><div className="view-transition" key={pathname}><Suspense fallback={<div className="empty"><h2>{t("Đang tải…")}</h2></div>}><Outlet /></Suspense></div></main>
-    <footer><div className="container footer-grid"><Logo /><p>{t("Nền tảng chiến dịch cộng đồng Web3 minh bạch, bảo mật và có trách nhiệm.")}</p><div className="footer-owner"><a href="https://x.com/daomintam" target="_blank" rel="noreferrer" aria-label={language === 'vi' ? 'Theo dõi MT-Web3 trên X' : 'Follow MT-Web3 on X'} title="X · MT-Web3"><span className="x-icon" aria-hidden="true">𝕏</span><span>{language === 'vi' ? 'Theo dõi MT-Web3' : 'Follow MT-Web3'}</span><ExternalLink size={13}/></a><p className="dev-sign">{language === 'vi' ? 'Thiết kế & phát triển bởi MT-Web3' : 'Designed & built by MT-Web3'}</p><p className="fine">© 2026 MT-Web3 Community</p></div></div></footer>
+    <footer><div className="container footer-grid"><Logo /><p>{t("Nền tảng chiến dịch cộng đồng Web3 minh bạch, bảo mật và có trách nhiệm.")}</p><div className="footer-owner"><a className="x-profile-link" href="https://x.com/daomintam" target="_blank" rel="noreferrer" aria-label="@daomintam trên X" title="@daomintam trên X"><XLogo size={17}/><span>@daomintam</span><ExternalLink size={13}/></a><p className="dev-sign">{language === 'vi' ? 'Thiết kế & phát triển bởi MT-Web3' : 'Designed & built by MT-Web3'}</p><p className="fine">© 2026 MT-Web3 Community</p></div></div></footer>
   </div>
 }
