@@ -31,7 +31,7 @@ export function Layout() {
         <NavLink to="/campaigns" onClick={() => setOpen(false)}>{t("Chiến dịch")}</NavLink>
         {menuConfig.about !== false && <NavLink to="/about" onClick={() => setOpen(false)}>{language === 'vi' ? 'Giới thiệu' : 'About'}</NavLink>}
         {menuConfig.story !== false && <NavLink to="/story" onClick={() => setOpen(false)}>{language === 'vi' ? 'Câu chuyện' : 'Story'}</NavLink>}
-        {menuConfig.admin === true && <NavLink to="/admin" onClick={() => setOpen(false)}>Admin</NavLink>}
+        {(menuConfig.admin === true || pathname.startsWith('/admin')) && <NavLink to="/admin" onClick={() => setOpen(false)}>Admin</NavLink>}
       </nav>
       <div className="nav-actions">
         <button className="icon-button" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} aria-label={t("Đổi giao diện")}>{theme === 'dark' ? <Sun /> : <Moon />}</button>
