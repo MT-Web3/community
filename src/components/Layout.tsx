@@ -30,6 +30,6 @@ export function Layout() {
       </div>
     </div></header>
     <main><div className="view-transition" key={pathname}><Suspense fallback={<div className="empty"><h2>{t("Đang tải…")}</h2></div>}><Outlet /></Suspense></div></main>
-    <footer><div className="container footer-grid"><Logo /><p>{t("Nền tảng chiến dịch cộng đồng Web3 minh bạch, bảo mật và có trách nhiệm.")}</p><div className="footer-owner"><a href="https://x.com/daomintam" target="_blank" rel="noreferrer" aria-label={language === 'vi' ? 'X của TΛM' : 'TΛM on X'}><span className="x-icon">X</span> @daomintam <ExternalLink size={13}/></a><p className="fine">© 2026 MT-Web3 Community</p></div></div></footer>
+    <footer><div className="container footer-grid"><Logo /><p>{t("Nền tảng chiến dịch cộng đồng Web3 minh bạch, bảo mật và có trách nhiệm.")}</p><div className="footer-owner"><a href="https://x.com/daomintam" target="_blank" rel="noreferrer" aria-label={language === 'vi' ? 'X của người sáng lập MT-Web3' : 'MT-Web3 founder on X'}><span className="x-icon">X</span> <span>{language === 'vi' ? 'Người sáng lập MT-Web3 · @daomintam' : 'MT-Web3 founder · @daomintam'}</span> <ExternalLink size={13}/></a><p className="dev-sign">{language === 'vi' ? 'Thiết kế & phát triển bởi MT-Web3' : 'Designed & built by MT-Web3'}</p><p className="fine">© 2026 MT-Web3 Community</p></div></div></footer>
   </div>
 }
