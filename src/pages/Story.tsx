@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ArrowLeft, ArrowRight, RotateCcw } from 'lucide-react'
 import { useI18n } from '../lib/i18n'
 
@@ -12,8 +12,34 @@ const chapters = [
 export function Story() {
   const { language } = useI18n()
   const [chapter, setChapter] = useState(0), [surprise, setSurprise] = useState(false)
+  const touchStart = useRef<number | null>(null)
   const content = chapters[chapter][language]
   function go(next: number) { setChapter(next); setSurprise(false) }
+  useEffect(() => {
+    let locked = false
+    const onWheel = (event: WheelEvent) => {
+      if (Math.abs(event.deltaY) < 24 || locked) return
+      event.preventDefault()
+      locked = true
+      go(Math.max(0, Math.min(chapters.length - 1, chapter + (event.deltaY > 0 ? 1 : -1))))
+      window.setTimeout(() => { locked = false }, 650)
+    }
+    const onTouchStart = (event: TouchEvent) => { touchStart.current = event.touches[0]?.clientY ?? null }
+    const onTouchEnd = (event: TouchEvent) => {
+      if (touchStart.current === null) return
+      const distance = touchStart.current - (event.changedTouches[0]?.clientY ?? touchStart.current)
+      touchStart.current = null
+      if (Math.abs(distance) > 45 && !locked) {
+        locked = true
+        go(Math.max(0, Math.min(chapters.length - 1, chapter + (distance > 0 ? 1 : -1))))
+        window.setTimeout(() => { locked = false }, 650)
+      }
+    }
+    window.addEventListener('wheel', onWheel, { passive: false })
+    window.addEventListener('touchstart', onTouchStart, { passive: true })
+    window.addEventListener('touchend', onTouchEnd, { passive: true })
+    return () => { window.removeEventListener('wheel', onWheel); window.removeEventListener('touchstart', onTouchStart); window.removeEventListener('touchend', onTouchEnd) }
+  }, [chapter])
   return <section className={`story-page container story-chapter-${chapter}`}>
     <div className="story-top"><span className="story-fiction">{language === 'vi' ? 'Một câu chuyện hư cấu • TΛMVERSE' : 'A fictional story • TΛMVERSE'}</span><div className="story-tabs" aria-label={language === 'vi' ? 'Chọn chương' : 'Choose chapter'}>{chapters.map((_, index) => <button key={index} aria-label={`${language === 'vi' ? 'Chương' : 'Chapter'} ${index + 1}`} aria-pressed={chapter === index} onClick={() => go(index)}>{String(index + 1).padStart(2, '0')}</button>)}</div></div>
     <div className="story-scene" key={chapter}><div className="story-copy"><p className="kicker">{content[0]}</p><h1>{content[1]}</h1><p className="story-prose">{content[2]}</p><button className="button primary" onClick={() => setSurprise(!surprise)} aria-pressed={surprise}>{content[3]} ✦</button><p className="story-punchline" role="status">{surprise ? content[4] : '\u00a0'}</p></div><div className={`story-art ${surprise ? 'story-party' : ''}`}><div className="story-orbit"/><span className="story-floating-block">{chapter === 1 ? 'HA!' : chapter === 2 ? '@' : chapter === 3 ? 'GM' : '◈'}</span><img src={`${import.meta.env.BASE_URL}assets/community-mascot.png`} alt="TΛM"/><span className="story-sticker">{chapter === 3 ? 'GOOD\nMORNING' : 'STAY\nCURIOUS'}</span></div></div>
