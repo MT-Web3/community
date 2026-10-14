@@ -57,9 +57,12 @@ body { background: var(--bg); }
 .x-profile-card-meta{display:flex;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:10px;margin-top:5px}.x-profile-card-meta b{color:var(--ink);font-weight:800}
 .x-profile-card-action{display:flex;align-items:center;gap:7px;margin-left:auto;color:var(--muted);flex:0 0 auto}
 .x-profile-card-action .x-logo{color:var(--ink)}
-.profile-footer{position:fixed;z-index:30;left:50%;bottom:22px;display:flex;justify-content:center;width:min(100% - 32px,430px);padding:0;transform:translateX(-50%);pointer-events:none}
-.footer-profile-card{margin:0;width:100%;pointer-events:auto}
-@media(max-width:650px){.profile-footer{bottom:14px;width:calc(100% - 24px)}.footer-profile-card{padding-right:10px;padding-left:10px}.footer-profile-card .x-profile-card-action{gap:4px}}
+.app-shell{padding-bottom:190px}
+.profile-footer{position:fixed;z-index:30;left:18px;bottom:22px;display:flex;justify-content:flex-start;width:min(100% - 36px,365px);padding:0;pointer-events:none}
+.footer-profile-card{margin:0;width:100%;min-height:154px;padding:70px 16px 16px;pointer-events:auto;background:linear-gradient(145deg,rgba(255,255,255,.44),rgba(255,255,255,.16));border:1px solid rgba(255,255,255,.7);box-shadow:0 24px 55px rgba(22,28,25,.22),inset 0 1px 0 rgba(255,255,255,.8);backdrop-filter:blur(24px) saturate(145%);-webkit-backdrop-filter:blur(24px) saturate(145%)}
+.footer-profile-card .x-profile-card-avatar{top:-68px;left:16px;width:142px;height:142px;filter:drop-shadow(0 18px 16px rgba(25,28,26,.3))}
+.footer-profile-card .x-profile-card-body{gap:5px}.footer-profile-card .x-profile-card-name{font-size:20px;line-height:1.15}.footer-profile-card .x-profile-card-handle{font-size:14px}.footer-profile-card .x-profile-card-bio{font-size:13px}.footer-profile-card .x-profile-card-meta{font-size:12px;gap:14px;margin-top:7px}.footer-profile-card .x-profile-card-action{position:absolute;right:16px;top:38px}
+@media(max-width:650px){.app-shell{padding-bottom:178px}.profile-footer{left:12px;bottom:14px;width:calc(100% - 24px)}.footer-profile-card{min-height:146px;padding:66px 13px 13px}.footer-profile-card .x-profile-card-avatar{left:12px;width:128px;height:128px;top:-61px}.footer-profile-card .x-profile-card-name{font-size:18px}}
 .motion-stage { position: relative; min-height: 0; min-width: 0; isolation: isolate; display: grid; place-items: center; perspective: 1000px; overflow: visible; }
 .motion-stage canvas { position: absolute; inset: 0; height: 100%; width: 100%; pointer-events: none; z-index: 1; }
 .stage-blob { position: absolute; width: 80%; aspect-ratio: 1; max-height: 90%; background: #c8e5d6; border-radius: 42% 58% 48% 52% / 45% 42% 58% 55%; animation: blob-dance 10s ease-in-out infinite; z-index: 0; }
