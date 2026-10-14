@@ -14,7 +14,7 @@ export function Layout() {
   const [theme, setTheme] = useState(() => localStorage.getItem('mt-theme') || 'light')
   const [open, setOpen] = useState(false)
   const holdTimer = useRef<number | null>(null)
-  const startSecretHold = () => { holdTimer.current = window.setTimeout(() => { holdTimer.current = null; navigate('/admin') }, 10000) }
+  const startSecretHold = () => { holdTimer.current = window.setTimeout(() => { holdTimer.current = null; navigate('/admin') }, 5000) }
   const cancelSecretHold = () => { if (holdTimer.current !== null) { window.clearTimeout(holdTimer.current); holdTimer.current = null } }
   const [menuConfig, setMenuConfig] = useState<Record<string, boolean>>(() => JSON.parse(localStorage.getItem('mt-menu-config') || '{}'))
   useEffect(() => { const sync = () => setMenuConfig(JSON.parse(localStorage.getItem('mt-menu-config') || '{}')); window.addEventListener('storage', sync); return () => window.removeEventListener('storage', sync) }, [])
